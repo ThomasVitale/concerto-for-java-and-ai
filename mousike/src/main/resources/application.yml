@@ -1,0 +1,49 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: mousike
+
+  ai:
+    openai:
+      chat:
+        options:
+          model: gpt-3.5-turbo
+      embedding:
+        options:
+          model: text-embedding-3-small
+    vectorstore:
+      pgvector:
+        dimensions: 1536
+        index-type: none
+        initialize-schema: false
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+  threads:
+    virtual:
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  tracing:
+    sampling:
+      probability: 1.0
+
+vaadin:
+  launch-browser: true
+  allowed-packages: com.vaadin,org.vaadin,dev.hilla,com.thomasvitale.mousike
+
+mousike:
+  spring:
+    ai:
+      client:
+        log-requests: true
+      observations:
+        include-prompt: true

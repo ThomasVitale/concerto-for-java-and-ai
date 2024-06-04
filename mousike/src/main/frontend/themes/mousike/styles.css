@@ -1,0 +1,12 @@
+@import url('./main-layout.css');
+@import url('./views/master-detail-view.css');
+@import url('./views/director-note-form-view.css');
+@import url('./views/chat-view.css');
+@import url('./views/image-gallery-view.css');    html {
+      --lumo-size-xl: 4rem;
+      --lumo-size-l: 3rem;
+      --lumo-size-m: 2.5rem;
+      --lumo-size-s: 2rem;
+      --lumo-size-xs: 1.75rem;
+
+    }

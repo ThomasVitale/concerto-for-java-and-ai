@@ -1,0 +1,5 @@
+CREATE TABLE COMPOSITION_NOTE (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    type VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL
+);

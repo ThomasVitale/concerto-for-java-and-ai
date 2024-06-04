@@ -1,0 +1,20 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: odai
+
+  ai:
+    ollama:
+      chat:
+        options:
+          model: mistral
+      embedding:
+        options:
+          model: mistral
+    vectorstore:
+      pgvector:
+        dimensions: 1536
+        index-type: none
+        initialize-schema: false

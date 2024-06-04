@@ -1,0 +1,14 @@
+.director-note-form-view, .director-note-ai-form-view {
+  display: block;
+  margin: 0 auto;
+  max-width: 1024px;
+  padding: 0 var(--lumo-space-l);
+}
+.director-note-form-view .button-layout, .director-note-ai-form-view .button-layout {
+  margin-bottom: var(--lumo-space-l);
+  margin-top: var(--lumo-space-m);
+}
+.director-note-form-view h3, .director-note-ai-form-view h3 {
+  margin-bottom: var(--lumo-space-s);
+  margin-top: var(--lumo-space-l);
+}
