@@ -34,6 +34,9 @@ If you want to run the application as it was before AI-infusion, run it as follo
 The application relies on the native Testcontainers support in Spring Boot to spin up a PostgreSQL database with the pgvector extension,
 and a Grafana LGTM service for observability.
 
+Grafana is listening to port 3000. Check your container runtime to find the port to which is exposed to your localhost and access Grafana from http://localhost:<port>.
+The credentials are `admin`/`admin`.
+
 ### Classification
 
 ```shell
