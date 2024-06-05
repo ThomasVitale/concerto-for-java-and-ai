@@ -1,14 +1,12 @@
 package com.thomasvitale.mousike.ai.clients;
 
-import java.net.http.HttpClient;
-
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.client.ClientHttpRequestFactories;
+import org.springframework.boot.web.client.ClientHttpRequestFactorySettings;
 import org.springframework.boot.web.client.RestClientCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.JdkClientHttpRequestFactory;
 
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(HttpClientProperties.class)
@@ -25,20 +23,11 @@ public class HttpClientAutoConfiguration {
                 .build();
 
         return restClientBuilder -> {
-            HttpClient httpClient = HttpClient.newBuilder().connectTimeout(clientConfig.connectTimeout()).build();
-
-            var jdkClientHttpRequestFactory = new JdkClientHttpRequestFactory(httpClient);
-            jdkClientHttpRequestFactory.setReadTimeout(clientConfig.readTimeout());
-
-            ClientHttpRequestFactory requestFactory;
-            if (clientConfig.logRequests()) {
-                requestFactory = new BufferingClientHttpRequestFactory(jdkClientHttpRequestFactory);
-            } else {
-                requestFactory = jdkClientHttpRequestFactory;
-            }
-
             restClientBuilder
-                    .requestFactory(requestFactory)
+                    .requestFactory(new BufferingClientHttpRequestFactory(
+                            ClientHttpRequestFactories.get(ClientHttpRequestFactorySettings.DEFAULTS
+                                            .withConnectTimeout(clientConfig.connectTimeout())
+                                            .withReadTimeout(clientConfig.readTimeout()))))
                     .requestInterceptors(interceptors -> {
                         if (clientConfig.logRequests() || clientConfig.logResponses()) {
                             interceptors.add(new HttpLoggingInterceptor(clientConfig.logRequests(), clientConfig.logResponses()));
