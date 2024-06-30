@@ -1,0 +1,13 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: athena-team
+  title: Athena Team
+  description: The Athena development team
+spec:
+  type: team
+  parent: development-unit
+  children: []
+  profile:
+    displayName: Athena Team

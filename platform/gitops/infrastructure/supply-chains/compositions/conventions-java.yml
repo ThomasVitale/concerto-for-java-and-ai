@@ -1,0 +1,11 @@
+---
+apiVersion: apiextensions.crossplane.io/v1alpha1
+kind: EnvironmentConfig
+metadata:
+  name: conventions-java
+  labels:
+    app.kadras.io/language: java
+data:
+  env:
+    - name: BPL_JAVA_NMT_ENABLED
+      value: "false"

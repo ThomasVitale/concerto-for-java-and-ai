@@ -1,0 +1,13 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: hephaestus-team
+  title: Hephaestus Team
+  description: The Hephaestus research team
+spec:
+  type: team
+  parent: research-unit
+  children: []
+  profile:
+    displayName: Hephaestus Team

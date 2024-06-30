@@ -1,0 +1,255 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xworkloads.app.kadras.io
+spec:
+  group: app.kadras.io
+  names:
+    kind: XWorkload
+    plural: xworkloads
+  claimNames:
+    kind: Workload
+    plural: workloads
+
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+
+            #! Spec
+            spec:
+              description: Specifies the required configuration to develop, build, and run an application workload.
+              type: object
+              properties:
+                serviceAccountName:
+                  description: The name of the ServiceAccount to use to create the resources part of the supply chain for this workload.
+                  type: string
+                  default: default
+                
+                application:
+                  description: Metadata about the workload that will be used to apply configuration conventions.
+                  type: object
+                  default: {}
+                  properties:
+                    language:
+                      description: The programming languages used to implemente the application.
+                      type: string
+                      enum:
+                        - generic
+                        - java
+                      default: generic
+                    framework:
+                      description: The framework used to implement the application.
+                      type: string
+                      enum:
+                        - generic
+                        - spring-boot
+                      default: generic
+                    type:
+                      description: The type of application that will determine configuration and deployment topology.
+                      type: string
+                      enum:
+                        - server
+                        - web
+                        - worker
+                      default: web
+
+                image:
+                  description: The pre-built OCI image from which to run the application workload.
+                  type: string
+
+                development:
+                  description: Development configuration for the application workload.
+                  type: object
+                  default: {}
+                  properties:
+                    debug:
+                      description: Whether the workload should be configured for remote debugging.
+                      type: boolean
+                      default: false
+                    liveUpdate:
+                      description: Whether the workload should be configured for a continuous development workflow.
+                      type: boolean
+                      default: false
+
+                deployment:
+                  description: Deployment configuration for the application workload.
+                  type: object
+                  properties:
+
+                    #! Deployment - Annotations
+                    annotations:
+                      description: Annotations applied to the Pod running the application workload.
+                      type: object
+                      additionalProperties:
+                        type: string
+                    
+                    #! Deployment - Environment
+                    env:
+                      description: List of environment variables to set in the container. Cannot be updated.
+                      type: array
+                      items:
+                        description: EnvVar represents an environment variable present in a Container.
+                        type: object
+                        properties:
+                          name:
+                            description: Name of the environment variable. Must be a C_IDENTIFIER.
+                            type: string
+                          value:
+                            description: 'Variable references $(VAR_NAME) are expanded using the previously defined environment variables
+                              in the container and any service environment variables. If a variable cannot be resolved, the reference
+                              in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME)
+                              syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded,
+                              regardless of whether the variable exists or not. Defaults to "".'
+                            type: string
+                          valueFrom:
+                            description: Source for the environment variable's value. Cannot be used if value is not empty.
+                            type: object
+                            properties:
+                              configMapKeyRef:
+                                description: Selects a key of a ConfigMap.
+                                type: object
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names.'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the ConfigMap or its key must be defined.
+                                    type: boolean
+                                required:
+                                  - key
+                                x-kubernetes-map-type: atomic
+                              fieldRef:
+                                description: This is accessible behind a feature flag - kubernetes.podspec-fieldref.
+                                type: object
+                                x-kubernetes-map-type: atomic
+                                x-kubernetes-preserve-unknown-fields: true
+                              resourceFieldRef:
+                                description: This is accessible behind a feature flag - kubernetes.podspec-fieldref.
+                                type: object
+                                x-kubernetes-map-type: atomic
+                                x-kubernetes-preserve-unknown-fields: true
+                              secretKeyRef:
+                                description: Selects a key of a secret in the pod's namespace.
+                                type: object
+                                properties:
+                                  key:
+                                    description: The key of the secret to select from.  Must be a valid secret key.
+                                    type: string
+                                  name:
+                                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names.'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the Secret or its key must be defined.
+                                    type: boolean
+                                required:
+                                  - key
+                                x-kubernetes-map-type: atomic
+                        required:
+                          - name
+                    
+                    #! Deployment - Resources
+                    resources:
+                      description: 'Compute Resources required by this container. Cannot be updated. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/.'
+                      type: object
+                      properties:
+                        claims:
+                          description: "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n
+                            This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n
+                            This field is immutable. It can only be set for containers."
+                          type: array
+                          items:
+                            description: ResourceClaim references one entry in PodSpec.ResourceClaims.
+                            type: object
+                            properties:
+                              name:
+                                description: Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.
+                                type: string
+                            required:
+                              - name
+                          x-kubernetes-list-map-keys:
+                            - name
+                          x-kubernetes-list-type: map
+                        limits:
+                          description: 'Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/.'
+                          type: object
+                          additionalProperties:
+                            anyOf:
+                              - type: integer
+                              - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                        requests:
+                          type: object
+                          description: 'Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits
+                            if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits.
+                            More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
+                          additionalProperties:
+                            anyOf:
+                              - type: integer
+                              - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+
+                serviceClaims:
+                  description: ServiceClaims to be bound through ServiceBindings.
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      ref:
+                        type: object
+                        properties:
+                          apiVersion:
+                            type: string
+                          kind:
+                            type: string
+                          name:
+                            type: string
+                       #! required:
+                       #!   - apiVersion
+                       #!   - kind
+                       #!   - name
+                    required:
+                      - name
+
+                #! Add configuration (array with .name, .content)
+
+                #! Add observability (.metrics.path, .metrics.port)
+
+                #! Add source (.oci, .git)
+
+                #! Add build (.env, .strategy, .dockerfile, .ko)
+
+              required:
+                - image
+            
+            #! Status
+            status:
+              description: WorkloadStatus records the observed state of an application workload.
+              type: object
+              properties:
+                image:
+                  description: The OCI image used to run the application workload.
+                  type: string
+                url:
+                  description: The URL where the application workload is exposed.
+                  type: string  
+
+      additionalPrinterColumns:
+        - name: image
+          type: string
+          jsonPath: ".status.image"
+        - name: url
+          type: string
+          jsonPath: ".status.url"

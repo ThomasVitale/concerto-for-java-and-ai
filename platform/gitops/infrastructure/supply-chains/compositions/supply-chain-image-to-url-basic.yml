@@ -1,0 +1,319 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: supply-chain-image-to-url-basic
+  labels:
+    crossplane.io/xrd: xworkloads.app.kadras.io
+  annotations:
+    crossplane.io/composition-schema-aware-validation-mode: strict
+spec:
+
+  compositeTypeRef:
+    apiVersion: app.kadras.io/v1alpha1
+    kind: XWorkload
+
+  environment:
+    environmentConfigs:
+      - type: Selector
+        selector:
+          mode: Multiple
+          minMatch: 0
+          matchLabels:
+            - type: FromCompositeFieldPath
+              key: app.kadras.io/language
+              valueFromFieldPath: spec.application.language
+      - type: Selector
+        selector:
+          mode: Multiple
+          minMatch: 0
+          matchLabels:
+            - type: FromCompositeFieldPath
+              key: app.kadras.io/framework
+              valueFromFieldPath: spec.application.framework
+      - type: Selector
+        selector:
+          mode: Multiple
+          minMatch: 0
+          matchLabels:
+            - key: app.kadras.io/live-update
+              type: Value
+              value: "true"
+            - type: FromCompositeFieldPath
+              key: app.kadras.io/live-update
+              valueFromFieldPath: spec.development.liveUpdate
+              fromFieldPathPolicy: Optional
+
+  patchSets:
+    - name: metadata
+      patches:
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.claimRef.name
+          toFieldPath: spec.forProvider.manifest.metadata.labels["app.kubernetes.io/name"]
+        - type: FromCompositeFieldPath
+          fromFieldPath: metadata.labels
+          toFieldPath: spec.forProvider.manifest.metadata.labels
+          policy:
+            mergeOptions:
+              appendSlice: true
+              keepMapValues: true
+        - type: FromCompositeFieldPath
+          fromFieldPath: metadata.annotations
+          toFieldPath: spec.forProvider.manifest.metadata.annotations
+          policy:
+            mergeOptions:
+              appendSlice: true
+              keepMapValues: true
+
+  resources:
+    - name: app-config
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
+        kind: Object
+        spec:
+          readiness:
+            policy: SuccessfulCreate
+          forProvider:
+            manifest:
+              apiVersion: v1
+              kind: ConfigMap
+              data:
+                application.yml: |
+                  # No default properties
+          providerConfigRef:
+            name: supply-chain-kubernetes-provider
+      patches:
+        #! General
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.claimRef.name
+          toFieldPath: spec.forProvider.manifest.metadata.name
+          transforms:
+            - type: string
+              string:
+                type: Format
+                fmt: "%s-app-config"
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.claimRef.namespace
+          toFieldPath: spec.forProvider.manifest.metadata.namespace
+        #! Metadata
+        - type: PatchSet
+          patchSetName: metadata
+        #! Data
+        - type: FromEnvironmentFieldPath
+          fromFieldPath: properties
+          toFieldPath: spec.forProvider.manifest.data["application.yml"]
+
+    - name: knative-service
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
+        kind: Object
+        spec:
+          readiness:
+            policy: DeriveFromObject
+          forProvider:
+            manifest:
+              apiVersion: serving.knative.dev/v1
+              kind: Service
+              spec:
+                template:
+                  spec:
+                    automountServiceAccountToken: false
+                    serviceAccountName: supply-chain
+                    containers:
+                      - name: workload
+                        imagePullPolicy: Always
+                        ports:
+                          - containerPort: 8080
+                        securityContext:
+                          allowPrivilegeEscalation: false
+                          capabilities:
+                            drop:
+                              - ALL
+                          privileged: false
+                          runAsNonRoot: true
+                          runAsUser: 1001
+                          seccompProfile:
+                            type: RuntimeDefault
+                        volumeMounts:
+                          - name: app-config
+                            mountPath: /config
+                    volumes:
+                      - name: app-config
+                        configMap:
+                          name: app-config
+          providerConfigRef:
+            name: supply-chain-kubernetes-provider
+      patches:
+        #! General
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.claimRef.name
+          toFieldPath: spec.forProvider.manifest.metadata.name
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.claimRef.namespace
+          toFieldPath: spec.forProvider.manifest.metadata.namespace
+        #! Metadata
+        - type: PatchSet
+          patchSetName: metadata
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.claimRef.name
+          toFieldPath: spec.forProvider.manifest.metadata.labels["app.kubernetes.io/component"]
+        #! Pod Metadata
+        - type: FromEnvironmentFieldPath
+          fromFieldPath: annotations
+          toFieldPath: spec.forProvider.manifest.spec.template.metadata.annotations
+          policy:
+            mergeOptions:
+              appendSlice: true
+              keepMapValues: true
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.deployment.annotations
+          toFieldPath: spec.forProvider.manifest.spec.template.metadata.annotations
+          policy:
+            mergeOptions:
+              appendSlice: true
+              keepMapValues: true
+        #! Pod Spec
+        - type: FromEnvironmentFieldPath
+          fromFieldPath: env
+          toFieldPath: spec.forProvider.manifest.spec.template.spec.containers[0].env
+          policy:
+            mergeOptions:
+              appendSlice: true
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.deployment.env
+          toFieldPath: spec.forProvider.manifest.spec.template.spec.containers[0].env
+          policy:
+            mergeOptions:
+              appendSlice: true
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.image
+          toFieldPath: spec.forProvider.manifest.spec.template.spec.containers[0].image
+          policy:
+            fromFieldPath: Required
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.deployment.resources
+          toFieldPath: spec.forProvider.manifest.spec.template.spec.containers[0].resources
+        - type: FromEnvironmentFieldPath
+          fromFieldPath: livenessProbe
+          toFieldPath: spec.forProvider.manifest.spec.template.spec.containers[0].livenessProbe
+        - type: FromEnvironmentFieldPath
+          fromFieldPath: readinessProbe
+          toFieldPath: spec.forProvider.manifest.spec.template.spec.containers[0].readinessProbe
+        - type: FromEnvironmentFieldPath
+          fromFieldPath: configVolumeMountPath
+          toFieldPath: spec.forProvider.manifest.spec.template.spec.containers[0].volumeMounts[0].mountPath
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.serviceAccountName
+          toFieldPath: spec.forProvider.manifest.spec.template.spec.serviceAccountName
+        #! Volume
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.claimRef.name
+          toFieldPath: spec.forProvider.manifest.spec.template.spec.volumes[0].configMap.name
+          transforms:
+            - type: string
+              string:
+                type: Format
+                fmt: "%s-app-config"
+        #! Status
+        - type: ToCompositeFieldPath
+          fromFieldPath: spec.forProvider.manifest.spec.template.spec.containers[0].image
+          toFieldPath: status.image
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.atProvider.manifest.status.url
+          toFieldPath: status.url
+
+    #! The following is HORRIBLE! Crossplane is not the right tool for this. Move it out to functions!
+
+    - name: service-binding-1
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
+        kind: Object
+        spec:
+          readiness:
+            policy: DeriveFromObject
+          forProvider:
+            manifest:
+              apiVersion: servicebinding.io/v1beta1
+              kind: ServiceBinding
+              spec:
+                service:
+                  apiVersion: v1
+                  kind: Secret
+                  name: ""
+                workload:
+                  apiVersion: serving.knative.dev/v1
+                  kind: Service
+                  name: ""
+          providerConfigRef:
+            name: supply-chain-kubernetes-provider
+      patches:
+        #! General
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.claimRef.name
+              - fromFieldPath: spec.serviceClaims[0].name
+            strategy: string
+            string:
+              fmt: "service-binding-%s-%s"
+          toFieldPath: spec.forProvider.manifest.metadata.name
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.claimRef.namespace
+          toFieldPath: spec.forProvider.manifest.metadata.namespace
+        #! Metadata
+        - type: PatchSet
+          patchSetName: metadata
+        #! Spec
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.serviceClaims[0].name
+          toFieldPath: spec.forProvider.manifest.spec.service.name
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.claimRef.name
+          toFieldPath: spec.forProvider.manifest.spec.workload.name
+    
+    - name: service-binding-2
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
+        kind: Object
+        spec:
+          readiness:
+            policy: DeriveFromObject
+          forProvider:
+            manifest:
+              apiVersion: servicebinding.io/v1beta1
+              kind: ServiceBinding
+              spec:
+                service:
+                  apiVersion: v1
+                  kind: Secret
+                  name: ""
+                workload:
+                  apiVersion: serving.knative.dev/v1
+                  kind: Service
+                  name: ""
+          providerConfigRef:
+            name: supply-chain-kubernetes-provider
+      patches:
+        #! General
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.claimRef.name
+              - fromFieldPath: spec.serviceClaims[1].name
+            strategy: string
+            string:
+              fmt: "service-binding-%s-%s"
+          toFieldPath: spec.forProvider.manifest.metadata.name
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.claimRef.namespace
+          toFieldPath: spec.forProvider.manifest.metadata.namespace
+        #! Metadata
+        - type: PatchSet
+          patchSetName: metadata
+        #! Spec
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.serviceClaims[1].name
+          toFieldPath: spec.forProvider.manifest.spec.service.name
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.claimRef.name
+          toFieldPath: spec.forProvider.manifest.spec.workload.name

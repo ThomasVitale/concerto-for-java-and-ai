@@ -1,0 +1,51 @@
+platform:
+  profile: run
+  
+  additional_packages:
+    - crossplane
+    - developer-portal
+    - gitops-configurer
+    - service-binding
+    - postgresql-operator
+  
+  ingress:
+    domain: staging.thomasvitale.dev
+    issuer:
+      type: letsencrypt
+      email: security@kadras.io
+
+contour:
+  certificates:
+    useCertManager: true
+
+developer_portal:
+  backstage:
+    replicas: 2
+    appConfig:
+      auth:
+        autologout:
+          enabled: false
+      catalog:
+        locations:
+          - type: url
+            target: https://github.com/ThomasVitale/concerto-for-java-and-ai/blob/main/platform/catalog/organization/catalog-info.yml
+            rules:
+              - allow: [User, Group, Location]
+          - type: url
+            target: https://github.com/ThomasVitale/concerto-for-java-and-ai/blob/main/platform/catalog/templates/catalog-info.yml
+            rules:
+              - allow: [Template, Location]
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod-http01-issuer
+    host: backstage.staging.thomasvitale.dev
+
+flux:
+  optional_components:
+    helm_controller: true
+
+gitops_configurer:
+  type: flux-kustomization
+  git:
+    url: https://github.com/ThomasVitale/kadras-workspaces
+    path: gitops/clusters/staging

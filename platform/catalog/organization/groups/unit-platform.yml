@@ -1,0 +1,12 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: platform-unit
+  title: Platform Unit
+  description: The platform business unit
+spec:
+  type: business-unit
+  children: [poseidon-team]
+  profile:
+    displayName: Platform Unit

@@ -1,0 +1,8 @@
+---
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: supply-chain-kubernetes-provider
+spec:
+  credentials:
+    source: InjectedIdentity

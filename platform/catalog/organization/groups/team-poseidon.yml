@@ -1,0 +1,13 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: poseidon-team
+  title: Poseidon Team
+  description: The Poseidon platform team
+spec:
+  type: team
+  parent: platform-unit
+  children: []
+  profile:
+    displayName: Poseidon Team

@@ -1,0 +1,14 @@
+---
+apiVersion: apiextensions.crossplane.io/v1alpha1
+kind: EnvironmentConfig
+metadata:
+  name: conventions-developer
+  labels:
+    app.kadras.io/live-update: "true"
+data:
+  annotations:
+    autoscaling.knative.dev/min-scale: "1"
+    autoscaling.knative.dev/max-scale: "1"
+  env:
+    - name: BPL_DEBUG_ENABLED
+      value: "true"

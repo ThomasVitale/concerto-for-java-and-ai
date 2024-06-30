@@ -1,0 +1,52 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: default-supply-chain-workload
+  labels:
+    platform.kadras.io/aggregate-to-supply-chain-workload: "true"
+rules:
+
+  #! Core
+  - apiGroups: [""]
+    resources: ["configmaps", "services"]
+    verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["ingresses"]
+    verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+  
+  #! Carvel
+  - apiGroups: ["kappctrl.k14s.io"]
+    resources: ["apps"]
+    verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+  
+  #! Knative
+  - apiGroups: ["serving.knative.dev"]
+    resources: ["services"]
+    verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+
+  #! Flux
+  - apiGroups: ["source.toolkit.fluxcd.io"]
+    resources: ["gitrepositories", "ocirepositories"]
+    verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+  - apiGroups: ["kustomize.toolkit.fluxcd.io"]
+    resources: ["kustomizations"]
+    verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+  
+  #! kpack
+  - apiGroups: ["kpack.io"]
+    resources: ["images"]
+    verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+
+  #! Service Binding
+  - apiGroups: ["servicebinding.io"]
+    resources: ["servicebindings"]
+    verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+
+  #! Tekton
+  - apiGroups: ["tekton.dev"]
+    resources: ["pipelineruns", "taskruns"]
+    verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]

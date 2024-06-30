@@ -1,0 +1,12 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: research-unit
+  title: Research Unit
+  description: The research business unit
+spec:
+  type: business-unit
+  children: [hephaestus-team]
+  profile:
+    displayName: Research Unit

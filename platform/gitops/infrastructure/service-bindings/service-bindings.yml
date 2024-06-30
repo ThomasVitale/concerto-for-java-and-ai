@@ -1,0 +1,39 @@
+---
+apiVersion: secretgen.carvel.dev/v1alpha1
+kind: SecretTemplate
+metadata:
+  name: open-ai
+  namespace: kadras-system
+spec:
+  inputResources:
+    - name: openai
+      ref:
+        apiVersion: v1
+        kind: Secret
+        name: openai-secret
+  template:
+    type: servicebinding.io/open-ai
+    data:
+      api-key: $(.openai.data.api-key) 
+    stringData:
+      type: "open-ai"
+      uri: "https://api.openai.com"
+
+---
+apiVersion: secretgen.carvel.dev/v1alpha1
+kind: SecretExport
+metadata:
+  name: open-ai
+  namespace: kadras-system
+spec:
+  toNamespaces:
+    - default
+
+---
+apiVersion: secretgen.carvel.dev/v1alpha1
+kind: SecretImport
+metadata:
+  name: open-ai
+  namespace: default
+spec:
+  fromNamespace: kadras-system
