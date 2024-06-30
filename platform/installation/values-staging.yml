@@ -47,5 +47,5 @@ flux:
 gitops_configurer:
   type: flux-kustomization
   git:
-    url: https://github.com/ThomasVitale/kadras-workspaces
-    path: gitops/clusters/staging
+    url: https://github.com/ThomasVitale/concerto-for-java-and-ai
+    path: platform/gitops/clusters/staging
