@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: ${{ values.artifactId }}
+  ai:
+    {%- if values.llmProvider == "ollama" %}
+    ollama:
+      chat:
+        options:
+          model: mistral
+      embedding:
+        enabled: false
+    {%- endif %}
+    vectorstore:
+      {%- if values.vectorStore == "postgresql" %}
+      pgvector:
+        dimensions: 384
+        index-type: hnsw
+        initialize-schema: true
+      {%- endif %}
+
+management:
+  tracing:
+    enabled: false

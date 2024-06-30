@@ -1,0 +1,78 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.1'
+	id 'io.spring.dependency-management' version '1.1.5'
+}
+
+group = '${{ values.groupId }}'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+ext {
+	set('springAiVersion', "1.0.0-SNAPSHOT")
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'io.micrometer:micrometer-tracing-bridge-otel'
+	implementation 'io.opentelemetry:opentelemetry-exporter-otlp'
+
+	{% if values.llmProvider == "mistral-ai" %}
+	implementation implementation 'org.springframework.ai:spring-ai-mistral-ai-spring-boot-starter'
+	{% endif %}
+	{% if values.llmProvider == "ollama" %}
+	implementation 'org.springframework.ai:spring-ai-ollama-spring-boot-starter'
+	testImplementation 'org.testcontainers:ollama'
+	{% endif %}
+	{% if values.llmProvider == "openai" %}
+	implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
+	{% endif %}
+	{% if values.vectorStore == "chroma" %}
+	implementation 'org.springframework.ai:spring-ai-chroma-store-spring-boot-starter'
+	testImplementation 'org.testcontainers:chromadb'
+	{% endif %}
+	{% if values.vectorStore == "postgresql" %}
+	implementation 'org.springframework.ai:spring-ai-pgvector-store-spring-boot-starter'
+	testImplementation 'org.testcontainers:postgresql'
+	{% endif %}
+	{% if values.vectorStore == "weaviate" %}
+	implementation 'org.springframework.ai:spring-ai-weaviate-store-spring-boot-starter'
+	testImplementation 'org.testcontainers:weaviate'
+	{% endif %}
+	implementation 'org.springframework.ai:spring-ai-spring-cloud-bindings'
+
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+
+	testAndDevelopmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+	testImplementation 'org.springframework.ai:spring-ai-spring-boot-testcontainers'
+	testImplementation 'org.testcontainers:junit-jupiter'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

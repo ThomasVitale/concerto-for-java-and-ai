@@ -1,0 +1,28 @@
+---
+apiVersion: app.kadras.io/v1alpha1
+kind: Workload
+metadata:
+  name: ${{ values.name }}
+  labels:
+    app: ${{ values.name }}
+spec:
+  image: ghcr.io/${{ values.repoUrl.owner | lower }}/${{ values.repoUrl.repo }}
+  application:
+    framework: spring-boot
+    language: java
+  serviceClaims:
+    {%- if values.llmProvider == "mistral" %}
+    - name: mistral-ai
+    {%- endif %}
+    {%- if values.llmProvider == "openai" %}
+    - name: open-ai
+    {%- endif %}
+    {%- if values.vectorStore == "chroma" %}
+    - name: chroma
+    {%- endif %}
+    {%- if values.vectorStore == "postgresql" %}
+    - name: postgresql
+    {%- endif %}
+    {%- if values.vectorStore == "weaviate" %}
+    - name: weaviate
+    {%- endif %}

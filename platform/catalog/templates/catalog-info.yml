@@ -1,12 +1,9 @@
-# ---
-# apiVersion: backstage.io/v1alpha1
-# kind: Location
-# metadata:
-#   name: templates
-#   description: A collection of Templates
-# spec:
-#   targets:
-#     - ./carvel-package/template.yml
-#     - ./python-langchain/template.yml
-#     - ./spring-boot-dapr/template.yml
-#     - ./spring-boot-langchain4j/template.yml
+---
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: templates
+  description: A collection of Templates
+spec:
+  targets:
+    - ./spring-boot-ai/template.yml
