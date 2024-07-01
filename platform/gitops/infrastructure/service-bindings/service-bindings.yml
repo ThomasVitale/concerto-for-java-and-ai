@@ -2,41 +2,42 @@
 apiVersion: secretgen.carvel.dev/v1alpha1
 kind: SecretTemplate
 metadata:
-  name: weaviate
-  namespace: weaviate
+  name: postgresql
+  namespace: postgresql
 spec:
   inputResources:
-    - name: api-keys
+    - name: pg
       ref:
         apiVersion: v1
         kind: Secret
-        name: weaviate-api-keys
+        name: pg-cluster-app
   template:
-    type: servicebinding.io/weaviate
+    type: servicebinding.io/postgresql
     data:
-      api-key: $(.api-keys.data.AUTHENTICATION_APIKEY_ALLOWED_KEYS) 
+      username: $(.pg.data.username)
+      password: $(.pg.data.password)
+      jdbc-url: $(.pg.data.jdbc-uri)
     stringData:
-      type: "weaviate"
-      uri: "http://weaviate.weaviate.svc.cluster.local"
+      type: "postgresql"
 
 ---
 apiVersion: secretgen.carvel.dev/v1alpha1
 kind: SecretExport
 metadata:
-  name: weaviate
-  namespace: weaviate
+  name: postgresql
+  namespace: postgresql
 spec:
   toNamespaces:
-    - default
+    - apps
 
 ---
 apiVersion: secretgen.carvel.dev/v1alpha1
 kind: SecretImport
 metadata:
-  name: weaviate
-  namespace: default
+  name: postgresql
+  namespace: apps
 spec:
-  fromNamespace: weaviate
+  fromNamespace: postgresql
 
 ---
 apiVersion: secretgen.carvel.dev/v1alpha1
