@@ -2,6 +2,46 @@
 apiVersion: secretgen.carvel.dev/v1alpha1
 kind: SecretTemplate
 metadata:
+  name: weaviate
+  namespace: weaviate
+spec:
+  inputResources:
+    - name: api-keys
+      ref:
+        apiVersion: v1
+        kind: Secret
+        name: weaviate-api-keys
+  template:
+    type: servicebinding.io/weaviate
+    data:
+      api-key: $(.api-keys.data.AUTHENTICATION_APIKEY_ALLOWED_KEYS) 
+    stringData:
+      type: "weaviate"
+      uri: "http://weaviate.weaviate.svc.cluster.local"
+
+---
+apiVersion: secretgen.carvel.dev/v1alpha1
+kind: SecretExport
+metadata:
+  name: weaviate
+  namespace: weaviate
+spec:
+  toNamespaces:
+    - default
+
+---
+apiVersion: secretgen.carvel.dev/v1alpha1
+kind: SecretImport
+metadata:
+  name: weaviate
+  namespace: default
+spec:
+  fromNamespace: weaviate
+
+---
+apiVersion: secretgen.carvel.dev/v1alpha1
+kind: SecretTemplate
+metadata:
   name: open-ai
   namespace: kadras-system
 spec:

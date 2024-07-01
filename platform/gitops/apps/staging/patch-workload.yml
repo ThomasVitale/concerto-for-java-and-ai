@@ -1,0 +1,15 @@
+---
+apiVersion: app.kadras.io/v1alpha1
+kind: Workload
+metadata:
+  name: document-assistant
+spec:
+  image: ghcr.io/thomasvitale/document-assistant
+  deployment:
+    annotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/path: /actuator/prometheus
+      prometheus.io/port: "8080"
+    env:
+      - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
+        value: http://tempo.observability-stack.svc.cluster.local:4318/v1/traces

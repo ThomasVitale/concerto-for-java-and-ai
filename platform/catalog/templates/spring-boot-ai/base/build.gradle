@@ -55,7 +55,7 @@ dependencies {
 	implementation 'org.springframework.ai:spring-ai-weaviate-store-spring-boot-starter'
 	testImplementation 'org.testcontainers:weaviate'
 	{% endif %}
-	implementation 'org.springframework.ai:spring-ai-spring-cloud-bindings'
+	implementation "org.springframework.ai:spring-ai-spring-cloud-bindings:${springAiVersion}"
 
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
@@ -75,4 +75,9 @@ dependencyManagement {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.named('bootBuildImage') {
+	builder = "paketobuildpacks/builder-jammy-buildpackless-tiny"
+	buildpacks = [ "gcr.io/paketo-buildpacks/java" ]
 }
