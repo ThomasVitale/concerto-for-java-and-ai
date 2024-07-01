@@ -68,7 +68,7 @@ metadata:
   namespace: kadras-system
 spec:
   toNamespaces:
-    - default
+    - apps
 
 ---
 apiVersion: secretgen.carvel.dev/v1alpha1
