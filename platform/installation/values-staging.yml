@@ -35,6 +35,10 @@ developer_portal:
             target: https://github.com/ThomasVitale/concerto-for-java-and-ai/blob/main/platform/catalog/templates/catalog-info.yml
             rules:
               - allow: [Template, Location]
+          - type: url
+            target: https://github.com/ThomasVitale/document-assistant/blob/main/catalog-info.yml
+            rules:
+              - allow: [Component]
   ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod-http01-issuer
@@ -49,3 +53,8 @@ gitops_configurer:
   git:
     url: https://github.com/ThomasVitale/concerto-for-java-and-ai
     path: platform/gitops/clusters/staging
+
+workspace_provisioner:
+  namespaces:
+    - name: apps
+    - name: default
