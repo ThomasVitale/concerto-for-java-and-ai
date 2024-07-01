@@ -75,6 +75,6 @@ apiVersion: secretgen.carvel.dev/v1alpha1
 kind: SecretImport
 metadata:
   name: open-ai
-  namespace: default
+  namespace: apps
 spec:
   fromNamespace: kadras-system
