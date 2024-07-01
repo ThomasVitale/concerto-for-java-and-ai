@@ -1,9 +1,15 @@
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: postgresql
+
+---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: pg-cluster
-  namespace: apps
+  namespace: postgresql
 spec:
   instances: 3
   storage:
