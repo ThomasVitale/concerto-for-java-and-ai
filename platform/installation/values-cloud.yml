@@ -4,7 +4,7 @@ platform:
   additional_packages:
     - crossplane
     - developer-portal
-    #- gitops-configurer
+    - gitops-configurer
     - service-binding
     - postgresql-operator
   

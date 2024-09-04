@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: apps
 
 resources:
-  - https://github.com/ThomasVitale/question-answering-rag/blob/main/config/workload.yml
+  - https://raw.githubusercontent.com/ThomasVitale/question-answering-rag/main/config/workload.yml
 
 patches:
   - path: patch-workload.yml
