@@ -25,11 +25,11 @@ kapp deploy -a kapp-controller -y \
 
 Add the Kadras repository to make the platform packages available to the cluster.
 
-  ```shell
-  kctrl package repository add -r kadras-packages \
-    --url ghcr.io/kadras-io/kadras-packages:0.19.0 \
-    -n kadras-system --create-namespace
-  ```
+```shell
+kctrl package repository add -r kadras-packages \
+  --url ghcr.io/kadras-io/kadras-packages:0.21.0 \
+  -n kadras-system --create-namespace
+```
 
 ### 3. Create the Secrets for the Developer Portal
 
@@ -37,8 +37,8 @@ The platform includes a developer portal based on Backstage, which is integrated
 
 ```shell script
 export GITHUB_TOKEN=<github-token>
-export GITHUB_AUTH_PROVIDER_CLIENT_ID=<github-app-client-id>
-export GITHUB_AUTH_PROVIDER_CLIENT_SECRET=<github-app-client-secret>
+export AUTH_GITHUB_CLIENT_ID=<github-app-client-id>
+export AUTH_GITHUB_CLIENT_SECRET=<github-app-client-secret>
 ```
 
 Then, store the credentials in a dedicated Secret on the cluster.
@@ -47,40 +47,40 @@ Then, store the credentials in a dedicated Secret on the cluster.
 kubectl create namespace backstage
 kubectl create secret generic developer-portal-secrets \
   --from-literal=GITHUB_TOKEN="${GITHUB_TOKEN}" \
-  --from-literal=GITHUB_AUTH_PROVIDER_CLIENT_ID="${GITHUB_AUTH_PROVIDER_CLIENT_ID}" \
-  --from-literal=GITHUB_AUTH_PROVIDER_CLIENT_SECRET="${GITHUB_AUTH_PROVIDER_CLIENT_SECRET}" \
+  --from-literal=AUTH_GITHUB_CLIENT_ID="${AUTH_GITHUB_CLIENT_ID}" \
+  --from-literal=AUTH_GITHUB_CLIENT_SECRET="${AUTH_GITHUB_CLIENT_SECRET}" \
   --namespace=backstage
 ```
 
 ### 4. Configure the Platform
 
-The installation of the Kadras Engineering Platform can be configured via YAML. A `values-staging.yml` file is provided in the current folder with configuration to customize the cloud installation of the platform, based on the `run` installation profile. Make sure to update the domain names included in the YAML file with one of yours.
+The installation of the Kadras Engineering Platform can be configured via YAML. A `values-cloud.yml` file is provided in the current folder with configuration to customize the cloud installation of the platform, based on the `run` installation profile. Make sure to update the domain names included in the YAML file with one of yours.
 
 ### 5. Install the Platform
 
-Reference the `values-staging.yml` file mentioned in the previous step and install the Kadras Engineering Platform.
+Reference the `values-cloud.yml` file mentioned in the previous step and install the Kadras Engineering Platform.
 
-  ```shell
-  kctrl package install -i engineering-platform \
-    -p engineering-platform.packages.kadras.io \
-    -v 0.17.0 \
-    -n kadras-system \
-    --values-file values-staging.yml
-  ```
+```shell
+kctrl package install -i engineering-platform \
+  -p engineering-platform.packages.kadras.io \
+  -v 0.19.0 \
+  -n kadras-system \
+  --values-file values-cloud.yml
+```
 
 ### 5. Verify the Installation
 
 Verify that all the platform components have been installed and properly reconciled.
 
-  ```shell
-  kctrl package installed list -n kadras-system
-  ```
+```shell
+kctrl package installed list -n kadras-system
+```
 
 A GitOps reconciliation strategy is used to install data services and applications. You can check the sync status as follows.
 
-  ```shell
-  kubectl get kustomization gitops-configurer -n kadras-system
-  ```
+```shell
+kubectl get kustomization gitops-configurer -n kadras-system
+```
 
 ### 7. Configure OpenAI
 
@@ -107,4 +107,4 @@ echo "Admin Username: $(kubectl get secret --namespace observability-stack loki-
 echo "Admin Password: $(kubectl get secret --namespace observability-stack loki-stack-grafana -o jsonpath="{.data.admin-password}" | base64 --decode)"
 ```
 
-It will be available at [https://grafana.staging.thomasvitale.dev](https://grafana.staging.thomasvitale.dev).
+It will be available at [https://grafana.cloud.thomasvitale.dev](https://grafana.cloud.thomasvitale.dev).

@@ -2,14 +2,10 @@
 apiVersion: app.kadras.io/v1alpha1
 kind: Workload
 metadata:
-  name: document-assistant
+  name: question-answering-rag
 spec:
-  image: ghcr.io/thomasvitale/document-assistant
+  image: ghcr.io/thomasvitale/question-answering-rag
   deployment:
-    annotations:
-      prometheus.io/scrape: "true"
-      prometheus.io/path: /actuator/prometheus
-      prometheus.io/port: "8080"
     env:
       - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
         value: http://tempo.observability-stack.svc.cluster.local:4318/v1/traces

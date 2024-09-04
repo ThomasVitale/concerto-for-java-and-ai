@@ -13,6 +13,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: gitops-configurer
-  path: ./platform/gitops/apps/staging
+  path: ./platform/gitops/apps/cloud
   prune: true
   wait: true

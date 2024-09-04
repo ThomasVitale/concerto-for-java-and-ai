@@ -4,12 +4,12 @@ platform:
   additional_packages:
     - crossplane
     - developer-portal
-    - gitops-configurer
+    #- gitops-configurer
     - service-binding
     - postgresql-operator
   
   ingress:
-    domain: staging.thomasvitale.dev
+    domain: cloud.thomasvitale.dev
     issuer:
       type: letsencrypt
       email: security@kadras.io
@@ -22,27 +22,20 @@ developer_portal:
   backstage:
     replicas: 2
     appConfig:
-      auth:
-        autologout:
-          enabled: false
       catalog:
         locations:
           - type: url
-            target: https://github.com/ThomasVitale/concerto-for-java-and-ai/blob/main/platform/catalog/organization/catalog-info.yml
+            target: https://github.com/kadras-io/kadras-developer-portal/blob/main/demo-catalog/organizations/organization-kadras.yml
             rules:
               - allow: [User, Group, Location]
           - type: url
-            target: https://github.com/ThomasVitale/concerto-for-java-and-ai/blob/main/platform/catalog/templates/catalog-info.yml
+            target: https://github.com/kadras-io/kadras-developer-portal/blob/main/demo-catalog/templates/templates.yml
             rules:
               - allow: [Template, Location]
-          - type: url
-            target: https://github.com/ThomasVitale/document-assistant/blob/main/catalog-info.yml
-            rules:
-              - allow: [Component]
   ingress:
     annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod-http01-issuer
-    host: backstage.staging.thomasvitale.dev
+      cert-manager.io/cluster-issuer: letsencrypt-prod-issuer
+    host: backstage.cloud.thomasvitale.dev
 
 flux:
   optional_components:
@@ -52,9 +45,10 @@ gitops_configurer:
   type: flux-kustomization
   git:
     url: https://github.com/ThomasVitale/concerto-for-java-and-ai
-    path: platform/gitops/clusters/staging
+    path: platform/gitops/clusters/cloud
 
 workspace_provisioner:
   namespaces:
     - name: apps
     - name: default
+    - name: observability

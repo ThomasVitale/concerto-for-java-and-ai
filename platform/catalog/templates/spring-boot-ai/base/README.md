@@ -1,3 +1,0 @@
-# ${{ values.name }}
-
-${{ values.description }}
