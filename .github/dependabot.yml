@@ -12,7 +12,9 @@ updates:
     commit-message:
       prefix: "deps:"
   - package-ecosystem: "github-actions"
-    directory: "/"
+    directories:
+      - "/mousike"
+      - "/odai"
     schedule:
       interval: daily
       time: "00:30"
