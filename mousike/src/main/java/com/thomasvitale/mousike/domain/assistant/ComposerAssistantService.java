@@ -21,7 +21,7 @@ public class ComposerAssistantService {
 
     private static final String USER_PROMPT = """
         Suggest a composition strategy to score a video fragment of this movie scene.
-    
+
         -------
         {scene}
         -------
@@ -39,7 +39,7 @@ public class ComposerAssistantService {
                                 .withTopK(5)))
                 .defaultOptions(OpenAiChatOptions.builder()
                         .withModel("gpt-4-turbo")
-                        .withResponseFormat(new OpenAiApi.ChatCompletionRequest.ResponseFormat("json_object"))
+                        .withResponseFormat(new OpenAiApi.ChatCompletionRequest.ResponseFormat(OpenAiApi.ChatCompletionRequest.ResponseFormat.Type.JSON_OBJECT))
                         .build())
                 .build();
     }

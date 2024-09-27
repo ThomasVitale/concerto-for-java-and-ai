@@ -26,7 +26,7 @@ public class StructuredDataExtractionService {
         this.chatClient = chatClientBuilder
                 .defaultOptions(OpenAiChatOptions.builder()
                         .withModel("gpt-4-turbo")
-                        .withTemperature(0.0f)
+                        .withTemperature(0.0)
                         .build())
                 .build();
     }
@@ -42,7 +42,7 @@ public class StructuredDataExtractionService {
                         .param("text", unstructuredData)
                 )
                 .options(OpenAiChatOptions.builder()
-                        .withResponseFormat(new OpenAiApi.ChatCompletionRequest.ResponseFormat("json_object"))
+                        .withResponseFormat(new OpenAiApi.ChatCompletionRequest.ResponseFormat(OpenAiApi.ChatCompletionRequest.ResponseFormat.Type.JSON_OBJECT))
                         .build())
                 .functions(functionNames)
                 .call()

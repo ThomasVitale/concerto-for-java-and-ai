@@ -6,6 +6,13 @@ spring:
     name: mousike
 
   ai:
+    chat:
+      client:
+        observations:
+          include-input: true
+      observations:
+        include-prompt: true
+        include-completion: true
     openai:
       chat:
         options:
@@ -14,10 +21,11 @@ spring:
         options:
           model: text-embedding-3-small
     vectorstore:
+      observations:
+        include-query-response: true
       pgvector:
         dimensions: 1536
         index-type: none
-        initialize-schema: false
 
   servlet:
     multipart:
@@ -39,11 +47,3 @@ management:
 vaadin:
   launch-browser: true
   allowed-packages: com.vaadin,org.vaadin,dev.hilla,com.thomasvitale.mousike
-
-mousike:
-  spring:
-    ai:
-      client:
-        log-requests: true
-      observations:
-        include-prompt: true

@@ -1,7 +1,7 @@
 package com.thomasvitale.mousike.ai;
 
+import org.springframework.ai.audio.transcription.AudioTranscriptionPrompt;
 import org.springframework.ai.openai.OpenAiAudioTranscriptionModel;
-import org.springframework.ai.openai.audio.transcription.AudioTranscriptionPrompt;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 

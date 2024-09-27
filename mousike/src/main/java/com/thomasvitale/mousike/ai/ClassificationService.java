@@ -35,7 +35,7 @@ public class ClassificationService {
     public ClassificationService(ChatClient.Builder chatClientBuilder) {
         this.chatClient = chatClientBuilder
 				.defaultOptions(OpenAiChatOptions.builder()
-						.withTemperature(0.0f)
+						.withTemperature(0.0)
 						.build())
 				.build();
     }

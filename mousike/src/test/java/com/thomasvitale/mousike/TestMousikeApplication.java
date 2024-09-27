@@ -28,7 +28,7 @@ public class TestMousikeApplication {
     @Scope("singleton")
     @ServiceConnection("otel/opentelemetry-collector-contrib")
     GenericContainer<?> lgtmContainer() {
-        return new GenericContainer<>("docker.io/grafana/otel-lgtm:0.6.0")
+        return new GenericContainer<>("docker.io/grafana/otel-lgtm:0.7.4")
                 .withExposedPorts(3000, 4317, 4318)
                 .withEnv("OTEL_METRIC_EXPORT_INTERVAL", "500")
                 .waitingFor(Wait.forLogMessage(".*The OpenTelemetry collector and the Grafana LGTM stack are up and running.*\\s", 1))
