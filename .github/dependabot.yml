@@ -1,7 +1,9 @@
 version: 2
 updates:
   - package-ecosystem: gradle
-    directory: "/"
+    directories:
+      - "/mousike"
+      - "/odai"
     schedule:
       interval: daily
       time: "23:00"
@@ -12,9 +14,7 @@ updates:
     commit-message:
       prefix: "deps:"
   - package-ecosystem: "github-actions"
-    directories:
-      - "/mousike"
-      - "/odai"
+    directory: "/"
     schedule:
       interval: daily
       time: "00:30"
