@@ -12,9 +12,12 @@ spring:
           model: mistral
       embedding:
         options:
-          model: mistral
+          model: nomic-embed-text
     vectorstore:
       pgvector:
-        dimensions: 1536
-        index-type: none
-        initialize-schema: false
+        dimensions: 768
+        index-type: hnsw
+
+  threads:
+    virtual:
+      enabled: true

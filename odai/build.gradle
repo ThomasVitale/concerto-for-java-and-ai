@@ -1,23 +1,24 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.3.0'
-    id 'io.spring.dependency-management' version '1.1.5'
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
 }
 
 group = 'com.thomasvitale'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '21'
+    sourceCompatibility = '23'
 }
 
 repositories {
     mavenCentral()
     maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
 }
 
 ext {
-    set('springAiVersion', "1.0.0-M1")
+    set('springAiVersion', "1.0.0-SNAPSHOT")
 }
 
 dependencies {
@@ -40,7 +41,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
     testImplementation 'org.springframework.ai:spring-ai-spring-boot-testcontainers'
     testImplementation 'org.springframework.ai:spring-ai-test'
-    testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:ollama'
     testImplementation 'org.testcontainers:postgresql'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

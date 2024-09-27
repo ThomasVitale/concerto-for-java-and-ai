@@ -62,7 +62,7 @@ class DemoController {
         this.chatClient = chatClientBuilder
                 .defaultOptions(OllamaOptions.create()
                         .withFormat("json")
-                        .withTemperature(0.0f))
+                        .withTemperature(0.0))
                 .build();
         this.compositionNoteRepository = compositionNoteRepository;
         this.vectorStore = vectorStore;
