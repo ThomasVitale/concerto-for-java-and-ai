@@ -4,8 +4,9 @@
 
 ## Stack
 
-* Java 21
-* Spring Boot 3.3
+* Java 23 (with GraalVM)
+* Spring Boot 3.3 (with Spring AI)
+* Vaadin
 
 ## Mousike
 
