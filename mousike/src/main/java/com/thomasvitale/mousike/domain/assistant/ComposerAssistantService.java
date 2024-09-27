@@ -38,7 +38,6 @@ public class ComposerAssistantService {
                                 .withFilterExpression("type == 'INSTRUMENT'")
                                 .withTopK(5)))
                 .defaultOptions(OpenAiChatOptions.builder()
-                        .withModel("gpt-4-turbo")
                         .withResponseFormat(new OpenAiApi.ChatCompletionRequest.ResponseFormat(OpenAiApi.ChatCompletionRequest.ResponseFormat.Type.JSON_OBJECT))
                         .build())
                 .build();

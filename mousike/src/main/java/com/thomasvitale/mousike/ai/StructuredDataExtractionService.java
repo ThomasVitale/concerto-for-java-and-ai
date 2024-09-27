@@ -25,7 +25,6 @@ public class StructuredDataExtractionService {
     public StructuredDataExtractionService(ChatClient.Builder chatClientBuilder) {
         this.chatClient = chatClientBuilder
                 .defaultOptions(OpenAiChatOptions.builder()
-                        .withModel("gpt-4-turbo")
                         .withTemperature(0.0)
                         .build())
                 .build();

@@ -79,4 +79,4 @@ cd odai
 ./gradlew bootTestRun
 ```
 
-The application relies on the native Testcontainers support in Spring Boot to spin up an Ollama service with a _llama3_ model at startup time.
+The application relies on the native Testcontainers support in Spring Boot to spin up an Ollama service with a _mistral_ model at startup time.

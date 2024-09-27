@@ -16,7 +16,7 @@ spring:
     openai:
       chat:
         options:
-          model: gpt-3.5-turbo
+          model: gpt-4o
       embedding:
         options:
           model: text-embedding-3-small
@@ -25,7 +25,7 @@ spring:
         include-query-response: true
       pgvector:
         dimensions: 1536
-        index-type: none
+        index-type: hnsw
 
   servlet:
     multipart:
