@@ -41,25 +41,6 @@
     "workbox-core": "7.1.0",
     "workbox-precaching": "7.1.0"
   },
-  "overrides": {
-    "@vaadin/bundles": "$@vaadin/bundles",
-    "@vaadin/polymer-legacy-adapter": "$@vaadin/polymer-legacy-adapter",
-    "@vaadin/vaadin-development-mode-detector": "$@vaadin/vaadin-development-mode-detector",
-    "@vaadin/router": "$@vaadin/router",
-    "@vaadin/vaadin-usage-statistics": "$@vaadin/vaadin-usage-statistics",
-    "@vaadin/react-components": "$@vaadin/react-components",
-    "@vaadin/common-frontend": "$@vaadin/common-frontend",
-    "react-dom": "$react-dom",
-    "construct-style-sheets-polyfill": "$construct-style-sheets-polyfill",
-    "react-router-dom": "$react-router-dom",
-    "lit": "$lit",
-    "@polymer/polymer": "$@polymer/polymer",
-    "react": "$react",
-    "date-fns": "$date-fns",
-    "@vaadin/vaadin-themable-mixin": "$@vaadin/vaadin-themable-mixin",
-    "@vaadin/vaadin-lumo-styles": "$@vaadin/vaadin-lumo-styles",
-    "@vaadin/vaadin-material-styles": "$@vaadin/vaadin-material-styles"
-  },
   "vaadin": {
     "dependencies": {
       "@polymer/polymer": "3.5.1",
@@ -101,5 +82,24 @@
       "workbox-precaching": "7.1.0"
     },
     "hash": "6073e4d625a79da91460a298a269e418eb35ab4836e6949f3eef591675ebe7a5"
+  },
+  "overrides": {
+    "@vaadin/bundles": "$@vaadin/bundles",
+    "@vaadin/polymer-legacy-adapter": "$@vaadin/polymer-legacy-adapter",
+    "@vaadin/vaadin-development-mode-detector": "$@vaadin/vaadin-development-mode-detector",
+    "@vaadin/router": "$@vaadin/router",
+    "@vaadin/vaadin-usage-statistics": "$@vaadin/vaadin-usage-statistics",
+    "@vaadin/react-components": "$@vaadin/react-components",
+    "@vaadin/common-frontend": "$@vaadin/common-frontend",
+    "react-dom": "$react-dom",
+    "construct-style-sheets-polyfill": "$construct-style-sheets-polyfill",
+    "react-router-dom": "$react-router-dom",
+    "lit": "$lit",
+    "@polymer/polymer": "$@polymer/polymer",
+    "react": "$react",
+    "date-fns": "$date-fns",
+    "@vaadin/vaadin-themable-mixin": "$@vaadin/vaadin-themable-mixin",
+    "@vaadin/vaadin-lumo-styles": "$@vaadin/vaadin-lumo-styles",
+    "@vaadin/vaadin-material-styles": "$@vaadin/vaadin-material-styles"
   }
 }
