@@ -7,4 +7,5 @@ import org.springframework.data.repository.ListCrudRepository;
 
 public interface CompositionNoteRepository extends ListCrudRepository<CompositionNote, UUID> {
     List<CompositionNote> findByType(CompositionNote.Type type);
+    List<CompositionNote> findByContentIgnoreCaseContaining(String keyword);
 }

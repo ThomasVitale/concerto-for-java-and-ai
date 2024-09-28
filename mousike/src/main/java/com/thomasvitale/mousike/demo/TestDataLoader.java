@@ -37,9 +37,9 @@ public class TestDataLoader {
                         "Drones: Drones create a sense of tension, suspense, and unease. A good fit in suspenseful or mysterious scenes, noir, crime, mystical, and eerie atmospheres."),
                 new CompositionNote(null, CompositionNote.Type.INSTRUMENT,
                         "Harp: Ethereal and magical, the harp can evoke a sense of wonder, mystery, and enchantment. It's often used to add a celestial quality to film scores and can convey moments of beauty and serenity but also tension."),
-                new CompositionNote(null, CompositionNote.Type.ARRANGEMENT,
+                new CompositionNote(null, CompositionNote.Type.HARMONY,
                         "A chord progression for mystery and noir scenes: i II v II"),
-                new CompositionNote(null, CompositionNote.Type.ARRANGEMENT,
+                new CompositionNote(null, CompositionNote.Type.HARMONY,
                         "A chord progression for epic, action, or dramatic scenes: i VI III VII")
         );
         compositionNotes.forEach(compositionNoteService::save);

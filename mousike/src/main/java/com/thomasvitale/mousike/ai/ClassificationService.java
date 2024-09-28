@@ -1,7 +1,7 @@
 package com.thomasvitale.mousike.ai;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.chat.prompt.ChatOptionsBuilder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,9 +18,6 @@ public class ClassificationService {
 			Input: The chord progression vi-IV-I-V is commonly used for epic scenes, such as action, battles, and scenes with pathos.
 			Output: "HARMONY"
 
-			Input: A chord progression for driving and triumphant scenes: i v VII IV.
-			Output: "HARMONY"
-
 			Input: They're taking the hobbits to Isengard! To Isengard! To Isengard!
 			Output: "UNKNOWN"
 
@@ -34,7 +31,8 @@ public class ClassificationService {
 
     public ClassificationService(ChatClient.Builder chatClientBuilder) {
         this.chatClient = chatClientBuilder
-				.defaultOptions(OpenAiChatOptions.builder()
+				.defaultOptions(ChatOptionsBuilder.builder()
+						.withModel("gpt-3.5-turbo")
 						.withTemperature(0.0)
 						.build())
 				.build();

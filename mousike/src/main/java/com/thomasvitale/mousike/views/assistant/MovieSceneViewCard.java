@@ -3,19 +3,11 @@ package com.thomasvitale.mousike.views.assistant;
 import com.thomasvitale.mousike.domain.assistant.ComposerAssistantService;
 import com.thomasvitale.mousike.domain.assistant.CompositionPlan;
 import com.thomasvitale.mousike.domain.assistant.SceneToScore;
-import com.thomasvitale.mousike.domain.compositionnote.CompositionNote;
-import com.thomasvitale.mousike.views.compositionnotes.CompositionNoteView;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.theme.lumo.LumoUtility.*;
-
-import java.util.List;
 
 public class MovieSceneViewCard extends ListItem {
 

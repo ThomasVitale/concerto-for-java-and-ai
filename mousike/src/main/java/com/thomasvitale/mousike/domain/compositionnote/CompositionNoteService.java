@@ -1,16 +1,17 @@
 package com.thomasvitale.mousike.domain.compositionnote;
 
-import com.thomasvitale.mousike.ai.ClassificationService;
-import com.thomasvitale.mousike.ai.QuestionAnsweringService;
-import org.springframework.ai.document.Document;
-import org.springframework.ai.vectorstore.SearchRequest;
-import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
+import com.thomasvitale.mousike.ai.ClassificationService;
+import com.thomasvitale.mousike.ai.QuestionAnsweringService;
+
+import org.springframework.ai.document.Document;
+import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CompositionNoteService {
@@ -65,6 +66,10 @@ public class CompositionNoteService {
         )));
 
         return savedCompositionNote;
+    }
+
+    public List<CompositionNote> keywordSearch(String keyword) {
+        return compositionNoteRepository.findByContentIgnoreCaseContaining(keyword);
     }
 
     public List<CompositionNote> semanticSearch(String query) {

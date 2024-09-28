@@ -20,7 +20,7 @@ public class ComposerAssistantService {
     """;
 
     private static final String USER_PROMPT = """
-        Suggest a composition strategy to score a video fragment of this movie scene.
+        Scene description:
 
         -------
         {scene}

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.thomasvitale.mousike.views.assistant.AssistantView;
+import com.thomasvitale.mousike.views.compositionnotes.CompositionNoteAiView;
 import com.thomasvitale.mousike.views.compositionnotes.CompositionNoteView;
 import com.thomasvitale.mousike.views.directornotes.DirectorNoteAiFormView;
 import com.thomasvitale.mousike.views.directornotes.DirectorNoteFormView;
@@ -62,8 +63,8 @@ public class MainLayout extends AppLayout {
             nav.addItem(new SideNavItem("Composition Notes", CompositionNoteView.class, LineAwesomeIcon.GUITAR_SOLID.create()));
             nav.addItem(new SideNavItem("Director Notes", DirectorNoteFormView.class, LineAwesomeIcon.FILM_SOLID.create()));
         } else {
-            nav.addItem(new SideNavItem("Composition Notes", CompositionNoteView.class, LineAwesomeIcon.MAGIC_SOLID.create()));
-            nav.addItem(new SideNavItem("Director Notes", DirectorNoteAiFormView.class, LineAwesomeIcon.MAGIC_SOLID.create()));
+            nav.addItem(new SideNavItem("Composition Notes", CompositionNoteAiView.class, LineAwesomeIcon.GUITAR_SOLID.create()));
+            nav.addItem(new SideNavItem("Director Notes", DirectorNoteAiFormView.class, LineAwesomeIcon.FILM_SOLID.create()));
             nav.addItem(new SideNavItem("Assistant", AssistantView.class, LineAwesomeIcon.MAGIC_SOLID.create()));
         }
 
