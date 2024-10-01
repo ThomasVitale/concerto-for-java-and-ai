@@ -1,5 +1,6 @@
 package com.thomasvitale.mousike.domain.instrument;
 
+import java.util.List;
 import java.util.function.Function;
 
 import org.springframework.context.annotation.Bean;
@@ -10,14 +11,12 @@ import org.springframework.context.annotation.Description;
 public class InstrumentTools {
 
     @Bean
-    @Description("Verify if the given musical instrument is available")
-    Function<InstrumentQuery, InstrumentResult> isInstrumentAvailable(InstrumentService instrumentService) {
-        return instrument -> new InstrumentResult(instrumentService.getInstruments().stream().anyMatch(
-                i -> i.equals(instrument.name)
-        ));
+    @Description("Retrieve the list of instruments available to use in the composition")
+    Function<InstrumentQuery, InstrumentResult> getAvailableInstruments(InstrumentService instrumentService) {
+        return _ -> new InstrumentResult(instrumentService.getInstruments());
     }
 
-    public record InstrumentQuery(String name){}
-    public record InstrumentResult(boolean available){}
+    public record InstrumentQuery(String purpose){}
+    public record InstrumentResult(List<String> instruments){}
 
 }
