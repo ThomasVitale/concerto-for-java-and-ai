@@ -1,5 +1,10 @@
 package com.thomasvitale.mousike.views.compositionnotes;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import com.thomasvitale.mousike.domain.compositionnote.CompositionNote;
 import com.thomasvitale.mousike.domain.compositionnote.CompositionNoteService;
 import com.thomasvitale.mousike.views.MainLayout;
@@ -30,11 +35,6 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 
 import org.springframework.core.env.Environment;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @PageTitle("Composition Notes")
 @Route(value = "/:compositionNoteId?/:action?(edit)", layout = MainLayout.class)

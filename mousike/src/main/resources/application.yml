@@ -5,6 +5,11 @@ spring:
   application:
     name: mousike
 
+  http:
+    client:
+      connect-timeout: 30s
+      read-timeout: 60s
+
   ai:
     chat:
       client:

@@ -1,8 +1,8 @@
 package com.thomasvitale.mousike.domain.compositionnote;
 
-import org.springframework.data.annotation.Id;
-
 import java.util.UUID;
+
+import org.springframework.data.annotation.Id;
 
 public class CompositionNote {
     @Id

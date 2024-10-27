@@ -1,8 +1,8 @@
 package com.thomasvitale.mousike.domain.directornote;
 
-import org.springframework.data.repository.ListCrudRepository;
-
 import java.util.UUID;
+
+import org.springframework.data.repository.ListCrudRepository;
 
 public interface DirectorNoteRepository extends ListCrudRepository<DirectorNote, UUID> {
 }

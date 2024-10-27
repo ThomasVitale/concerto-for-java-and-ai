@@ -1,12 +1,13 @@
 package com.thomasvitale.mousike.domain.directornote;
 
-import com.thomasvitale.mousike.ai.StructuredDataExtractionService;
-import com.thomasvitale.mousike.ai.TranscriptionService;
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.util.List;
+
+import com.thomasvitale.mousike.ai.StructuredDataExtractionService;
+import com.thomasvitale.mousike.ai.TranscriptionService;
+
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 
 @Service
 public class DirectorNoteService {

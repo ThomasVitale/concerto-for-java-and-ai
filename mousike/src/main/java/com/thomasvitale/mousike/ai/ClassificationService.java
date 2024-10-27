@@ -32,9 +32,9 @@ public class ClassificationService {
     public ClassificationService(ChatClient.Builder chatClientBuilder) {
         this.chatClient = chatClientBuilder
 				.defaultOptions(ChatOptionsBuilder.builder()
-						.withModel("gpt-3.5-turbo")
-						.withTemperature(0.0)
-						.build())
+                        .withModel("gpt-4o")
+                        .withTemperature(0.0)
+                        .build())
 				.build();
     }
 
