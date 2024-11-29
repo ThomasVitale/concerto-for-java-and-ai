@@ -23,7 +23,7 @@ public class TestcontainersConfiguration {
     @RestartScope
     @ServiceConnection
     LgtmStackContainer lgtmContainer() {
-        return new LgtmStackContainer("grafana/otel-lgtm:0.7.6")
+        return new LgtmStackContainer("grafana/otel-lgtm:0.8.0")
                 .withStartupTimeout(Duration.ofMinutes(2))
                 .withReuse(true);
     }

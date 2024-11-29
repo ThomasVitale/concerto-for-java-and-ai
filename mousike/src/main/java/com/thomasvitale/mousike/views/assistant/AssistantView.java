@@ -2,8 +2,6 @@ package com.thomasvitale.mousike.views.assistant;
 
 import com.thomasvitale.mousike.domain.assistant.ComposerAssistantService;
 import com.thomasvitale.mousike.views.MainLayout;
-import com.vaadin.flow.component.HasComponents;
-import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.html.OrderedList;
@@ -25,7 +23,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 
 @PageTitle("Composer Assistant")
 @Route(value = "composer-assistant", layout = MainLayout.class)
-public class AssistantView extends Main implements HasComponents, HasStyle {
+public class AssistantView extends Main {
 
     private OrderedList movieContainer;
 

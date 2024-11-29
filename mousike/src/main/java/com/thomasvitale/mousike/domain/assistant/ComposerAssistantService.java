@@ -3,7 +3,7 @@ package com.thomasvitale.mousike.domain.assistant;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.api.OpenAiApi;
+import org.springframework.ai.openai.api.ResponseFormat;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
@@ -74,7 +74,7 @@ public class ComposerAssistantService {
                                 //.withFilterExpression("type == 'INSTRUMENT'")
                                 .withTopK(5)))
                 .defaultOptions(OpenAiChatOptions.builder()
-                        .withResponseFormat(new OpenAiApi.ChatCompletionRequest.ResponseFormat(OpenAiApi.ChatCompletionRequest.ResponseFormat.Type.JSON_OBJECT))
+                        .withResponseFormat(new ResponseFormat(ResponseFormat.Type.JSON_OBJECT, null))
                         .build())
                 .build();
     }
