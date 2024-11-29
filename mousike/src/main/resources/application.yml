@@ -45,6 +45,9 @@ management:
     web:
       exposure:
         include: "*"
+  metrics:
+    tags:
+      service.name: ${spring.application.name}
   tracing:
     sampling:
       probability: 1.0

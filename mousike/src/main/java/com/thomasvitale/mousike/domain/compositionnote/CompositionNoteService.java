@@ -49,7 +49,7 @@ public class CompositionNoteService {
     }
 
     public CompositionNote save(CompositionNote compositionNote) {
-        var savedCompositionNote =  compositionNoteRepository.save(compositionNote);
+        var savedCompositionNote = compositionNoteRepository.save(compositionNote);
         vectorStore.add(List.of(new Document(savedCompositionNote.getId().toString(), savedCompositionNote.getType() + ". " + savedCompositionNote.getContent(),
                 Map.of("type", savedCompositionNote.getType())
         )));

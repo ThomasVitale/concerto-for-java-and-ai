@@ -20,11 +20,6 @@ public class ClassificationService {
 
 			Input: They're taking the hobbits to Isengard! To Isengard! To Isengard!
 			Output: "UNKNOWN"
-
-			---------------------
-			TEXT:
-			{text}
-			---------------------
 			""";
 
     private final ChatClient chatClient;
@@ -32,7 +27,7 @@ public class ClassificationService {
     public ClassificationService(ChatClient.Builder chatClientBuilder) {
         this.chatClient = chatClientBuilder
 				.defaultOptions(ChatOptionsBuilder.builder()
-                        .withModel("gpt-4o")
+                        .withModel("gpt-3.5-turbo")
                         .withTemperature(0.0)
                         .build())
 				.build();
@@ -40,10 +35,14 @@ public class ClassificationService {
 
     public <T> T classify(String textToClassify, Class<T> classificationType) {
 		return chatClient.prompt()
-				.user(userSpec -> userSpec
-						.text(DEFAULT_CLASSIFICATION_PROMPT)
-						.param("text", textToClassify)
-				)
+                .system(DEFAULT_CLASSIFICATION_PROMPT)
+                .user(user -> user
+                        .text("""
+                            ---------------------
+                            {textToClassify}
+                            ---------------------
+                            """)
+                        .param("textToClassify", textToClassify))
 				.call()
 				.entity(classificationType);
     }
