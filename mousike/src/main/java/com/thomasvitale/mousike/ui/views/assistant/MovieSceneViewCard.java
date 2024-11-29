@@ -1,4 +1,4 @@
-package com.thomasvitale.mousike.views.assistant;
+package com.thomasvitale.mousike.ui.views.assistant;
 
 import com.thomasvitale.mousike.domain.assistant.ComposerAssistantService;
 import com.thomasvitale.mousike.domain.assistant.CompositionPlan;

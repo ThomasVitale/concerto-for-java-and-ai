@@ -36,13 +36,7 @@ public class ClassificationService {
     public <T> T classify(String textToClassify, Class<T> classificationType) {
 		return chatClient.prompt()
                 .system(DEFAULT_CLASSIFICATION_PROMPT)
-                .user(user -> user
-                        .text("""
-                            ---------------------
-                            {textToClassify}
-                            ---------------------
-                            """)
-                        .param("textToClassify", textToClassify))
+                .user(textToClassify)
 				.call()
 				.entity(classificationType);
     }

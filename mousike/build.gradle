@@ -27,7 +27,6 @@ ext {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -45,12 +44,9 @@ dependencies {
 
     implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
     implementation 'org.springframework.ai:spring-ai-pgvector-store-spring-boot-starter'
-    implementation 'org.springframework.ai:spring-ai-tika-document-reader'
 
     implementation 'com.vaadin:vaadin-spring-boot-starter'
     implementation 'org.parttio:line-awesome:2.1.0'
-
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     testAndDevelopmentOnly 'org.springframework.boot:spring-boot-devtools'
 

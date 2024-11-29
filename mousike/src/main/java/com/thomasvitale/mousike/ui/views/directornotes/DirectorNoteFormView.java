@@ -1,11 +1,11 @@
-package com.thomasvitale.mousike.views.directornotes;
+package com.thomasvitale.mousike.ui.views.directornotes;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.thomasvitale.mousike.domain.directornote.DirectorNote;
 import com.thomasvitale.mousike.domain.directornote.DirectorNoteService;
-import com.thomasvitale.mousike.views.MainLayout;
+import com.thomasvitale.mousike.ui.layout.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;

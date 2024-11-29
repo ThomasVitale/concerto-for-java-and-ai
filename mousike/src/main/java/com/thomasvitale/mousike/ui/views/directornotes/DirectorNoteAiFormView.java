@@ -1,4 +1,4 @@
-package com.thomasvitale.mousike.views.directornotes;
+package com.thomasvitale.mousike.ui.views.directornotes;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,7 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thomasvitale.mousike.domain.directornote.DirectorNote;
 import com.thomasvitale.mousike.domain.directornote.DirectorNoteService;
-import com.thomasvitale.mousike.views.MainLayout;
+import com.thomasvitale.mousike.ui.layout.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;

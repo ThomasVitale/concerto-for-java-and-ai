@@ -1,4 +1,4 @@
-package com.thomasvitale.mousike.views.directornotes;
+package com.thomasvitale.mousike.ui.views.directornotes;
 
 import com.thomasvitale.mousike.domain.directornote.Marker;
 import com.vaadin.flow.component.customfield.CustomField;

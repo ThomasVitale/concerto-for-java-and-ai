@@ -1,12 +1,13 @@
-package com.thomasvitale.mousike.views.compositionnotes;
+package com.thomasvitale.mousike.ui.views.compositionnotes;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import com.thomasvitale.mousike.domain.compositionnote.CompositionNote;
 import com.thomasvitale.mousike.domain.compositionnote.CompositionNoteService;
-import com.thomasvitale.mousike.views.MainLayout;
+import com.thomasvitale.mousike.ui.layout.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -31,13 +32,15 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
 
 import org.springframework.core.env.Environment;
 
 @PageTitle("Composition Notes")
-@Route(value = "/legacy/:compositionNoteId?/:action?(edit)", layout = MainLayout.class)
+@Route(value = "/:compositionNoteId?/:action?(edit)", layout = MainLayout.class)
+@RouteAlias(value = "", layout = MainLayout.class)
 @Uses(Icon.class)
-public class CompositionNoteView extends Div implements BeforeEnterObserver {
+public class CompositionNoteAiView extends Div implements BeforeEnterObserver {
 
     private final String COMPOSITION_NOTE_ID = "compositionNoteId";
     private final String COMPOSITION_NOTE_EDIT_ROUTE_TEMPLATE = "/%s/edit";
@@ -56,14 +59,19 @@ public class CompositionNoteView extends Div implements BeforeEnterObserver {
 
     private final CompositionNoteService compositionNoteService;
 
-    public CompositionNoteView(CompositionNoteService compositionNoteService, Environment environment) {
+    public CompositionNoteAiView(CompositionNoteService compositionNoteService, Environment environment) {
         this.compositionNoteService = compositionNoteService;
         addClassNames("master-detail-view");
 
         VerticalLayout pageLayout = new VerticalLayout();
         pageLayout.setHeightFull();
 
-        pageLayout.add(buildKeywordSearch());
+        if (!Arrays.asList(environment.getActiveProfiles()).contains("plain")) {
+            //pageLayout.add(buildSemanticSearch());
+            pageLayout.add(buildRag());
+        } else {
+            pageLayout.add(buildKeywordSearch());
+        }
 
         // Create UI
         SplitLayout splitLayout = new SplitLayout();
@@ -84,7 +92,7 @@ public class CompositionNoteView extends Div implements BeforeEnterObserver {
                 UI.getCurrent().navigate(String.format(COMPOSITION_NOTE_EDIT_ROUTE_TEMPLATE, event.getValue().getId()));
             } else {
                 clearForm();
-                UI.getCurrent().navigate(CompositionNoteView.class);
+                UI.getCurrent().navigate(CompositionNoteAiView.class);
             }
         });
 
@@ -120,7 +128,7 @@ public class CompositionNoteView extends Div implements BeforeEnterObserver {
                 clearForm();
                 refreshGrid();
                 Notification.show("Data updated");
-                UI.getCurrent().navigate(CompositionNoteView.class);
+                UI.getCurrent().navigate(CompositionNoteAiView.class);
             } catch (ValidationException validationException) {
                 Notification.show("Failed to update the data. Check again that all values are valid");
             }
@@ -154,6 +162,62 @@ public class CompositionNoteView extends Div implements BeforeEnterObserver {
         return formLayout;
     }
 
+    private Component buildSemanticSearch() {
+        FormLayout formLayout = new FormLayout();
+
+        TextField searchField = new TextField("Search");
+        searchField.setPlaceholder("Enter search term");
+
+        Button searchButton = new Button("Semantic Search");
+
+        formLayout.add(searchField, searchButton);
+
+        formLayout.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1), // 1 column for narrow screens
+                new FormLayout.ResponsiveStep("600px", 2) // 2 columns for wider screens
+        );
+
+        searchButton.addClickListener(event -> {
+            var query = searchField.getValue();
+            grid.setItems(compositionNoteService.semanticSearch(query));
+        });
+
+        return formLayout;
+    }
+
+    private Component buildRag() {
+        FormLayout formLayout = new FormLayout();
+
+        TextField searchField = new TextField("Search");
+        searchField.setPlaceholder("Enter search term");
+
+        Button searchButton = new Button("Semantic Search");
+
+        Button ragButton = new Button("RAG");
+
+        formLayout.add(searchField, searchButton, ragButton);
+
+        formLayout.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1), // 1 column for narrow screens
+                new FormLayout.ResponsiveStep("600px", 3) // 2 columns for wider screens
+        );
+
+        TextArea ragAnswer = new TextArea("Answer");
+        formLayout.add(ragAnswer, 3);
+
+        searchButton.addClickListener(event -> {
+            var query = searchField.getValue();
+            grid.setItems(compositionNoteService.semanticSearch(query));
+        });
+
+        ragButton.addClickListener(event -> {
+            var query = compositionNoteService.ask(searchField.getValue());
+            ragAnswer.setValue(compositionNoteService.ask(query));
+        });
+
+        return formLayout;
+    }
+
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
         Optional<UUID> compositionNoteId = event.getRouteParameters().get(COMPOSITION_NOTE_ID).map(UUID::fromString);
@@ -168,7 +232,7 @@ public class CompositionNoteView extends Div implements BeforeEnterObserver {
                 // when a row is selected but the data is no longer available,
                 // refresh grid
                 refreshGrid();
-                event.forwardTo(CompositionNoteView.class);
+                event.forwardTo(CompositionNoteAiView.class);
             }
         }
     }
@@ -186,6 +250,7 @@ public class CompositionNoteView extends Div implements BeforeEnterObserver {
         type = new Select<>();
         type.setLabel("Type");
         type.setItems(CompositionNote.Type.values());
+        type.setVisible(false);
 
         content = new TextArea("Content");
 

@@ -1,4 +1,4 @@
-package com.thomasvitale.mousike.domain.instrument;
+package com.thomasvitale.mousike.ai;
 
 import java.util.List;
 import java.util.function.Function;
@@ -7,8 +7,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
 
+import com.thomasvitale.mousike.domain.directornote.DirectorNote;
+import com.thomasvitale.mousike.domain.directornote.DirectorNoteRepository;
+import com.thomasvitale.mousike.domain.instrument.InstrumentService;
+
 @Configuration(proxyBeanMethods = false)
-public class InstrumentTools {
+public class Tools {
 
     @Bean
     @Description("Retrieve the list of instruments available to use in the composition")
@@ -18,5 +22,11 @@ public class InstrumentTools {
 
     public record InstrumentQuery(String purpose){}
     public record InstrumentResult(List<String> instruments){}
+
+    @Bean
+    @Description("Save DirectorNote structured data objects in the database")
+    Function<DirectorNote, DirectorNote> saveDirectorNote(DirectorNoteRepository directorNoteRepository) {
+        return directorNoteRepository::save;
+    }
 
 }

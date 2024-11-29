@@ -1,7 +1,7 @@
-package com.thomasvitale.mousike.views.assistant;
+package com.thomasvitale.mousike.ui.views.assistant;
 
 import com.thomasvitale.mousike.domain.assistant.ComposerAssistantService;
-import com.thomasvitale.mousike.views.MainLayout;
+import com.thomasvitale.mousike.ui.layout.MainLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.html.OrderedList;

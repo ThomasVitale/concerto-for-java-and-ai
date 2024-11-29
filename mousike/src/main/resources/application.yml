@@ -1,6 +1,3 @@
-server:
-  port: 8080
-
 spring:
   application:
     name: mousike
@@ -22,6 +19,7 @@ spring:
       chat:
         options:
           model: gpt-4o
+          temperature: 0.7
       embedding:
         options:
           model: text-embedding-3-small
@@ -51,7 +49,11 @@ management:
   tracing:
     sampling:
       probability: 1.0
+  otlp:
+    logging:
+      endpoint: "http://localhost:4318/v1/logs"
+    tracing:
+      endpoint: "http://localhost:4318/v1/traces"
 
 vaadin:
   launch-browser: true
-  allowed-packages: com.vaadin,org.vaadin,dev.hilla,com.thomasvitale.mousike
