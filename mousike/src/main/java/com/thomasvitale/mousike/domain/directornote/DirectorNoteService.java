@@ -34,12 +34,14 @@ public class DirectorNoteService {
         return transcriptionService.transcribe(audioResource);
     }
 
-    public DirectorNote structure(String unstructuredDirectorNote) {
-        return structuredDataExtractionService.extract(unstructuredDirectorNote, DirectorNote.class);
+    public ExtractedDirectorNote structure(String unstructuredDirectorNote) {
+        return structuredDataExtractionService.extract(unstructuredDirectorNote, ExtractedDirectorNote.class);
     }
 
-    public DirectorNote function(String unstructuredDirectorNote) {
-        return structuredDataExtractionService.extract(unstructuredDirectorNote, DirectorNote.class, "saveDirectorNote");
+    public ExtractedDirectorNote function(String unstructuredDirectorNote) {
+        return structuredDataExtractionService.extract(unstructuredDirectorNote, ExtractedDirectorNote.class, "saveDirectorNote");
     }
+
+    public record ExtractedDirectorNote(String movie, String sceneDescription, List<Marker> markers) {}
 
 }

@@ -3,7 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.4.0'
 	id 'io.spring.dependency-management' version '1.1.6'
 	// id 'org.graalvm.buildtools.native' version '0.10.3'
-    id 'com.vaadin' version '24.5.6'
+    id 'com.vaadin' version '24.5.7'
     id 'org.cyclonedx.bom' version '1.10.0'
 }
 
@@ -22,7 +22,7 @@ repositories {
 ext {
     set('otelInstrumentationVersion', "2.10.0-alpha")
 	set('springAiVersion', "1.0.0-M4")
-    set('vaadinVersion', "24.5.6")
+    set('vaadinVersion', "24.5.7")
 }
 
 dependencies {
