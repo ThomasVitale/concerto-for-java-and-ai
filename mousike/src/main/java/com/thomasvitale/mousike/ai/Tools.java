@@ -3,13 +3,13 @@ package com.thomasvitale.mousike.ai;
 import java.util.List;
 import java.util.function.Function;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Description;
-
 import com.thomasvitale.mousike.domain.directornote.DirectorNote;
 import com.thomasvitale.mousike.domain.directornote.DirectorNoteRepository;
 import com.thomasvitale.mousike.domain.instrument.InstrumentService;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Description;
 
 @Configuration(proxyBeanMethods = false)
 public class Tools {

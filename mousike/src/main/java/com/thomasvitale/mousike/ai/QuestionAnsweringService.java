@@ -2,7 +2,7 @@ package com.thomasvitale.mousike.ai;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
-import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ public class QuestionAnsweringService {
 
     public QuestionAnsweringService(ChatClient.Builder chatClientBuilder, VectorStore vectorStore) {
         this.chatClient = chatClientBuilder
-                .defaultAdvisors(new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults().withTopK(3)))
-                .defaultOptions(OpenAiChatOptions.builder()
-                    .withModel("gpt-4o")
-                    .withTemperature(0.0)
+                .defaultAdvisors(new QuestionAnswerAdvisor(vectorStore, SearchRequest.builder().topK(3).build()))
+                .defaultOptions(ChatOptions.builder()
+                    .model("gpt-4o")
+                    .temperature(0.0)
                     .build())
                 .build();
     }

@@ -31,7 +31,7 @@ public class ComposerAssistantService {
         - Create chord progressions that match the scene's emotional arc.
         - In the orchestration strategy, explain how to apply the instruments in a layered, structured way.
           Only suggest instruments from the list of available instruments.
-        
+
         -------
         Example
 
@@ -48,7 +48,7 @@ public class ComposerAssistantService {
         VII-VI-i-v
         ii-VI-iv-V
         i-VII-v-IV
-        
+
         Orchestration Strategy Steps:
         - Begin with percussions to create a steady, driving rhythm that mirrors the intensity of the chase.
         - Add strings to highlight sharp turns, near-misses, and the escalating tension between the hero and villain.
@@ -68,13 +68,14 @@ public class ComposerAssistantService {
     public ComposerAssistantService(ChatClient.Builder chatClientBuilder, VectorStore vectorStore) {
         this.chatClient = chatClientBuilder
                 .defaultSystem(SYSTEM_PROMPT)
-                .defaultFunctions("getAvailableInstruments")
+                .defaultTools("getAvailableInstruments")
                 .defaultAdvisors(new QuestionAnswerAdvisor(vectorStore,
-                        SearchRequest.defaults()
-                                //.withFilterExpression("type == 'INSTRUMENT'")
-                                .withTopK(5)))
+                        SearchRequest.builder()
+                                //.filterExpression("type == 'INSTRUMENT'")
+                                .topK(5)
+                                .build()))
                 .defaultOptions(OpenAiChatOptions.builder()
-                        .withResponseFormat(new ResponseFormat(ResponseFormat.Type.JSON_OBJECT, null))
+                        .responseFormat(new ResponseFormat(ResponseFormat.Type.JSON_OBJECT, null))
                         .build())
                 .build();
     }

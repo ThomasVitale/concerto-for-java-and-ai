@@ -74,7 +74,7 @@ public class CompositionNoteService {
 
     public List<CompositionNote> semanticSearch(String query) {
         var similarDocuments = vectorStore.similaritySearch(
-                SearchRequest.query(query).withTopK(3)
+                SearchRequest.builder().query(query).topK(3).build()
         );
 
         return compositionNoteRepository.findAllById(similarDocuments.stream()

@@ -1,7 +1,7 @@
 package com.thomasvitale.mousike.ai;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,9 +26,9 @@ public class ClassificationService {
 
     public ClassificationService(ChatClient.Builder chatClientBuilder) {
         this.chatClient = chatClientBuilder
-				.defaultOptions(OpenAiChatOptions.builder()
-                        .withModel("gpt-3.5-turbo")
-                        .withTemperature(0.0)
+				.defaultOptions(ChatOptions.builder()
+                        .model("gpt-3.5-turbo")
+                        .temperature(0.0)
                         .build())
 				.build();
     }

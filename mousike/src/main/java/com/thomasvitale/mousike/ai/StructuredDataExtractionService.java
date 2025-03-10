@@ -1,6 +1,7 @@
 package com.thomasvitale.mousike.ai;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.openai.api.ResponseFormat;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,9 @@ public class StructuredDataExtractionService {
 
     public StructuredDataExtractionService(ChatClient.Builder chatClientBuilder) {
         this.chatClient = chatClientBuilder
-                .defaultOptions(OpenAiChatOptions.builder()
-                        .withModel("gpt-4o")
-                        .withTemperature(0.0)
+                .defaultOptions(ChatOptions.builder()
+                        .model("gpt-4o")
+                        .temperature(0.0)
                         .build())
                 .build();
     }
@@ -35,9 +36,9 @@ public class StructuredDataExtractionService {
                 .system(DEFAULT_STRUCTURED_DATA_EXTRACTION_PROMPT)
                 .user(unstructuredData)
                 .options(OpenAiChatOptions.builder()
-                        .withResponseFormat(new ResponseFormat(ResponseFormat.Type.JSON_OBJECT, null))
+                        .responseFormat(new ResponseFormat(ResponseFormat.Type.JSON_OBJECT, null))
                         .build())
-                .functions(functionNames)
+                .tools(functionNames)
                 .call()
                 .entity(structuredType);
     }
