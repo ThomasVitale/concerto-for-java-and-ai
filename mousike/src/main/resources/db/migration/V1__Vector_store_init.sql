@@ -6,7 +6,7 @@ CREATE TABLE vector_store (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     content TEXT,
     metadata JSON,
-    embedding VECTOR(1536)
+    embedding VECTOR(1024)
 );
 
 CREATE INDEX idx_embedding ON vector_store USING HNSW (embedding vector_cosine_ops);

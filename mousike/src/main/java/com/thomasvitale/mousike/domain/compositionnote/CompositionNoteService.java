@@ -12,6 +12,7 @@ import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 @Service
 public class CompositionNoteService {
@@ -74,8 +75,16 @@ public class CompositionNoteService {
 
     public List<CompositionNote> semanticSearch(String query) {
         var similarDocuments = vectorStore.similaritySearch(
-                SearchRequest.builder().query(query).topK(3).build()
+                SearchRequest.builder()
+                        .query(query)
+                        .similarityThreshold(0.50)
+                        .topK(3)
+                        .build()
         );
+
+        if (CollectionUtils.isEmpty(similarDocuments)) {
+            return List.of();
+        }
 
         return compositionNoteRepository.findAllById(similarDocuments.stream()
                 .map(Document::getId)

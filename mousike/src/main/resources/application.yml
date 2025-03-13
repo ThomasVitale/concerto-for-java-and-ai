@@ -15,19 +15,30 @@ spring:
       observations:
         include-prompt: true
         include-completion: true
+    mistralai:
+      chat:
+        options:
+          model: mistral-small-latest
+      embedding:
+        options:
+          model: mistral-embed
     openai:
       chat:
+        enabled: false
         options:
           model: gpt-4o
           temperature: 0.7
       embedding:
+        enabled: false
         options:
           model: text-embedding-3-small
+      image:
+        enabled: false
     vectorstore:
       observations:
         include-query-response: true
       pgvector:
-        dimensions: 1536
+        dimensions: 1024
         index-type: hnsw
 
   servlet:
@@ -43,9 +54,6 @@ management:
     web:
       exposure:
         include: "*"
-  tracing:
-    sampling:
-      probability: 1.0
 
 arconia:
   dev:

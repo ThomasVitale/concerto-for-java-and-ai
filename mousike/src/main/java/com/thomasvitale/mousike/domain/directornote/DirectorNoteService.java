@@ -1,6 +1,5 @@
 package com.thomasvitale.mousike.domain.directornote;
 
-import java.io.IOException;
 import java.util.List;
 
 import com.thomasvitale.mousike.ai.StructuredDataExtractionService;
@@ -30,16 +29,12 @@ public class DirectorNoteService {
         return directorNoteRepository.save(directorNote);
     }
 
-    public String transcribe(Resource audioResource) throws IOException {
+    public String transcribe(Resource audioResource) {
         return transcriptionService.transcribe(audioResource);
     }
 
     public ExtractedDirectorNote structure(String unstructuredDirectorNote) {
         return structuredDataExtractionService.extract(unstructuredDirectorNote, ExtractedDirectorNote.class);
-    }
-
-    public ExtractedDirectorNote function(String unstructuredDirectorNote) {
-        return structuredDataExtractionService.extract(unstructuredDirectorNote, ExtractedDirectorNote.class, "saveDirectorNote");
     }
 
     public record ExtractedDirectorNote(String movie, String sceneDescription, List<Marker> markers) {}

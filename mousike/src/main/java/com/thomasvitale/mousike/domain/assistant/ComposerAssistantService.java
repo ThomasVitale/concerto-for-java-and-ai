@@ -1,9 +1,10 @@
 package com.thomasvitale.mousike.domain.assistant;
 
+import com.thomasvitale.mousike.ai.InstrumentTools;
+
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
-import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.api.ResponseFormat;
+import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
@@ -65,17 +66,17 @@ public class ComposerAssistantService {
 
     private final ChatClient chatClient;
 
-    public ComposerAssistantService(ChatClient.Builder chatClientBuilder, VectorStore vectorStore) {
+    public ComposerAssistantService(ChatClient.Builder chatClientBuilder, VectorStore vectorStore, InstrumentTools instrumentTools) {
         this.chatClient = chatClientBuilder
                 .defaultSystem(SYSTEM_PROMPT)
-                .defaultTools("getAvailableInstruments")
+                .defaultTools(instrumentTools)
                 .defaultAdvisors(new QuestionAnswerAdvisor(vectorStore,
                         SearchRequest.builder()
                                 //.filterExpression("type == 'INSTRUMENT'")
                                 .topK(5)
                                 .build()))
-                .defaultOptions(OpenAiChatOptions.builder()
-                        .responseFormat(new ResponseFormat(ResponseFormat.Type.JSON_OBJECT, null))
+                .defaultOptions(ChatOptions.builder()
+                        .model("mistral-large-latest")
                         .build())
                 .build();
     }

@@ -10,11 +10,11 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TestDataLoader {
+class TestDataLoader {
 
     private final CompositionNoteService compositionNoteService;
 
-    public TestDataLoader(CompositionNoteService compositionNoteService) {
+    TestDataLoader(CompositionNoteService compositionNoteService) {
         this.compositionNoteService = compositionNoteService;
     }
 

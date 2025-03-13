@@ -211,7 +211,7 @@ public class CompositionNoteAiView extends Div implements BeforeEnterObserver {
         });
 
         ragButton.addClickListener(event -> {
-            var query = compositionNoteService.ask(searchField.getValue());
+            var query = searchField.getValue();
             ragAnswer.setValue(compositionNoteService.ask(query));
         });
 
