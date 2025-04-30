@@ -31,7 +31,7 @@ public class StructuredDataExtractionService {
                 .system(DEFAULT_STRUCTURED_DATA_EXTRACTION_PROMPT)
                 .user(unstructuredData)
                 .options(MistralAiChatOptions.builder()
-                        .responseFormat(new MistralAiApi.ChatCompletionRequest.ResponseFormat("json_object"))
+                        .responseFormat(new MistralAiApi.ChatCompletionRequest.ResponseFormat("json_object", null))
                         .build())
                 .call()
                 .entity(structuredType);

@@ -22,7 +22,7 @@ repositories {
 
 ext {
     set('arconiaVersion', "0.10.1")
-	set('springAiVersion', "1.0.0-M6")
+	set('springAiVersion', "1.0.0-M8")
     set('vaadinVersion', "24.7.3")
 }
 
@@ -38,13 +38,15 @@ dependencies {
 
     runtimeOnly 'org.postgresql:postgresql'
 
-    implementation 'org.springframework.ai:spring-ai-mistral-ai-spring-boot-starter'
-    implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
-    implementation 'org.springframework.ai:spring-ai-pgvector-store-spring-boot-starter'
+    implementation 'org.springframework.ai:spring-ai-starter-model-mistral-ai'
+    implementation 'org.springframework.ai:spring-ai-starter-model-openai'
+    implementation 'org.springframework.ai:spring-ai-starter-vector-store-pgvector'
 
     implementation 'com.vaadin:vaadin-spring-boot-starter'
     implementation 'org.parttio:line-awesome:2.1.0'
 
+    implementation "org.springframework.ai:spring-ai-advisors-vector-store"
+    implementation "org.springframework.ai:spring-ai-rag"
     implementation 'io.arconia:arconia-opentelemetry-spring-boot-starter'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'

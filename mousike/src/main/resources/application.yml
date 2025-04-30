@@ -8,6 +8,8 @@ spring:
       read-timeout: 60s
 
   ai:
+    model:
+      chat: mistral
     chat:
       client:
         observations:
@@ -24,16 +26,12 @@ spring:
           model: mistral-embed
     openai:
       chat:
-        enabled: false
         options:
           model: gpt-4o
           temperature: 0.7
       embedding:
-        enabled: false
         options:
           model: text-embedding-3-small
-      image:
-        enabled: false
     vectorstore:
       observations:
         include-query-response: true
