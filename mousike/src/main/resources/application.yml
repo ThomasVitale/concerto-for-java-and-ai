@@ -10,10 +10,11 @@ spring:
   ai:
     model:
       chat: mistral
+      embedding: mistral
     chat:
       client:
         observations:
-          include-input: true
+          include-prompt: true
       observations:
         include-prompt: true
         include-completion: true

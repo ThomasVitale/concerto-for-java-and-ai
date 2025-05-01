@@ -3,9 +3,9 @@ package com.thomasvitale.mousike.domain.assistant;
 import com.thomasvitale.mousike.ai.InstrumentTools;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.prompt.ChatOptions;
-import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
+import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class ComposerAssistantService {
 
         The chord progressions reflect the tone of the scene and adheres to the movie genre, whether it's suspense, action, or emotion.
         The orchestration strategy details how the instruments will be layered or introduced at different stages to create atmosphere,
-        build tension, or evoke emotions. If rythmic instruments are suggested (e.g. percussions, harp, piano), mention them first.
+        build tension, or evoke emotions. If rhythmic instruments are suggested (e.g. percussions, harp, piano), mention them first.
 
         Instructions:
 
@@ -70,11 +70,12 @@ public class ComposerAssistantService {
         this.chatClient = chatClientBuilder
                 .defaultSystem(SYSTEM_PROMPT)
                 .defaultTools(instrumentTools)
-                .defaultAdvisors(new QuestionAnswerAdvisor(vectorStore,
-                        SearchRequest.builder()
-                                //.filterExpression("type == 'INSTRUMENT'")
+                .defaultAdvisors(RetrievalAugmentationAdvisor.builder()
+                        .documentRetriever(VectorStoreDocumentRetriever.builder()
+                                .vectorStore(vectorStore)
                                 .topK(5)
-                                .build()))
+                                .build())
+                        .build())
                 .defaultOptions(ChatOptions.builder()
                         .model("mistral-large-latest")
                         .build())
