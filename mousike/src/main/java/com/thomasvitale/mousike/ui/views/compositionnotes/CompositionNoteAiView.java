@@ -1,5 +1,6 @@
 package com.thomasvitale.mousike.ui.views.compositionnotes;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -17,11 +18,17 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.component.notification.Notification.Position;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.popover.Popover;
+import com.vaadin.flow.component.popover.PopoverPosition;
+import com.vaadin.flow.component.popover.PopoverVariant;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -34,7 +41,13 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 
+import com.vaadin.flow.theme.lumo.LumoIcon;
+import com.vaadin.flow.theme.lumo.LumoUtility;
+
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.vaadin.lineawesome.LineAwesomeIcon;
 
 @PageTitle("Composition Notes")
 @Route(value = "/:compositionNoteId?/:action?(edit)", layout = MainLayout.class)
@@ -195,15 +208,40 @@ public class CompositionNoteAiView extends Div implements BeforeEnterObserver {
 
         Button ragButton = new Button("RAG");
 
-        formLayout.add(searchField, searchButton, ragButton);
+        // Create an info icon that will show an image in a popover when clicked
+        Icon infoIcon = LumoIcon.BELL.create();
+        infoIcon.getStyle().set("cursor", "pointer");
+        infoIcon.setTooltipText("View Image");
+
+        // Create the image to be shown in the popover
+        StreamResource imageStreamResource = new StreamResource("scooby-doo.jpg", () -> {
+            try {
+                return new ClassPathResource("images/scooby-doo.jpg").getInputStream();
+            } catch (IOException e) {
+                e.printStackTrace(); // Consider using a logger in a production application
+                return null;
+            }
+        });
+        Image image = new Image(imageStreamResource, "Scooby Doo");
+        image.setWidth("860px");
+
+        // Create the popover and configure it
+        Popover popover = new Popover(image);
+        popover.setTarget(infoIcon); // Set the target for the popover
+        popover.setPosition(PopoverPosition.BOTTOM_START);
+        popover.addThemeVariants(PopoverVariant.LUMO_NO_PADDING);
+
+        // Show the popover when the icon is clicked
+
+        formLayout.add(searchField, searchButton, ragButton, infoIcon);
 
         formLayout.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1), // 1 column for narrow screens
-                new FormLayout.ResponsiveStep("600px", 3) // 2 columns for wider screens
+                new FormLayout.ResponsiveStep("600px", 4) // 4 columns for wider screens
         );
 
         TextArea ragAnswer = new TextArea("Answer");
-        formLayout.add(ragAnswer, 3);
+        formLayout.add(ragAnswer, 4);
 
         searchButton.addClickListener(event -> {
             var query = searchField.getValue();

@@ -39,6 +39,10 @@ spring:
       pgvector:
         dimensions: 1024
         index-type: hnsw
+    retry:
+      backoff:
+        initial-interval: 3000ms
+        multiplier: 7
 
   servlet:
     multipart:
@@ -59,6 +63,7 @@ arconia:
     services:
       postgresql:
         image-name: pgvector/pgvector:pg17
+        reusable: true
   otel:
     metrics:
       interval: 5s

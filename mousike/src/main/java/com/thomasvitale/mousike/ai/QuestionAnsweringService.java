@@ -1,5 +1,7 @@
 package com.thomasvitale.mousike.ai;
 
+import com.thomasvitale.mousike.ai.guardrails.SafetyCheckInputGuardrailAdvisor;
+
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
@@ -14,13 +16,17 @@ public class QuestionAnsweringService {
 
     public QuestionAnsweringService(ChatClient.Builder chatClientBuilder, VectorStore vectorStore) {
         this.chatClient = chatClientBuilder
-                .defaultAdvisors(RetrievalAugmentationAdvisor.builder()
-                        .documentRetriever(VectorStoreDocumentRetriever.builder()
-                                .similarityThreshold(0.50)
-                                .topK(3)
-                                .vectorStore(vectorStore)
+                .defaultAdvisors(
+                        SafetyCheckInputGuardrailAdvisor.builder()
+                                .chatClientBuilder(chatClientBuilder.clone())
+                                .build(),
+                        RetrievalAugmentationAdvisor.builder()
+                                .documentRetriever(VectorStoreDocumentRetriever.builder()
+                                        .similarityThreshold(0.50)
+                                        .topK(3)
+                                        .vectorStore(vectorStore)
+                                        .build())
                                 .build())
-                        .build())
                 .defaultOptions(ChatOptions.builder()
                     .temperature(0.0)
                     .build())

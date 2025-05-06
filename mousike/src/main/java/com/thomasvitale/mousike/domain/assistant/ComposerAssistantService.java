@@ -5,6 +5,7 @@ import com.thomasvitale.mousike.ai.InstrumentTools;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
+import org.springframework.ai.rag.preretrieval.query.transformation.RewriteQueryTransformer;
 import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
@@ -71,6 +72,7 @@ public class ComposerAssistantService {
                 .defaultSystem(SYSTEM_PROMPT)
                 .defaultTools(instrumentTools)
                 .defaultAdvisors(RetrievalAugmentationAdvisor.builder()
+                        .queryTransformers(RewriteQueryTransformer.builder().chatClientBuilder(chatClientBuilder.clone()).build())
                         .documentRetriever(VectorStoreDocumentRetriever.builder()
                                 .vectorStore(vectorStore)
                                 .topK(5)
