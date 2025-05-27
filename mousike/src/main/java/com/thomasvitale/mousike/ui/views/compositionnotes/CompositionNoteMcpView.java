@@ -10,6 +10,7 @@ import com.thomasvitale.mousike.ai.McpService;
 import com.thomasvitale.mousike.domain.compositionnote.CompositionNote;
 import com.thomasvitale.mousike.domain.compositionnote.CompositionNoteService;
 import com.thomasvitale.mousike.ui.layout.MainLayout;
+import com.thomasvitale.mousike.ui.views.directornotes.DirectorNoteFormView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -24,7 +25,6 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.component.notification.Notification.Position;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.popover.Popover;
@@ -51,15 +51,15 @@ import org.springframework.core.io.Resource;
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
 @PageTitle("Composition Notes")
-@Route(value = "/:compositionNoteId?/:action?(edit)", layout = MainLayout.class)
-@RouteAlias(value = "", layout = MainLayout.class)
+@Route(value = "/mcp/:compositionNoteId?/:action?(edit)", layout = MainLayout.class)
 @Uses(Icon.class)
-public class CompositionNoteAiView extends Div implements BeforeEnterObserver {
+public class CompositionNoteMcpView extends Div implements BeforeEnterObserver {
 
     private final String COMPOSITION_NOTE_ID = "compositionNoteId";
     private final String COMPOSITION_NOTE_EDIT_ROUTE_TEMPLATE = "/%s/edit";
 
     private final Grid<CompositionNote> grid = new Grid<>(CompositionNote.class, false);
+    private final DirectorNoteFormView form;
 
     private Select<CompositionNote.Type> type;
     private TextArea content;
@@ -74,7 +74,7 @@ public class CompositionNoteAiView extends Div implements BeforeEnterObserver {
     private final CompositionNoteService compositionNoteService;
     private final McpService mcpService;
 
-    public CompositionNoteAiView(CompositionNoteService compositionNoteService, Environment environment, McpService mcpService) {
+    public CompositionNoteMcpView(CompositionNoteService compositionNoteService, Environment environment, McpService mcpService, DirectorNoteFormView form) {
         this.compositionNoteService = compositionNoteService;
         this.mcpService = mcpService;
         addClassNames("master-detail-view");
@@ -154,6 +154,7 @@ public class CompositionNoteAiView extends Div implements BeforeEnterObserver {
         pageLayout.add(splitLayout);
 
         add(pageLayout);
+        this.form = form;
     }
 
     private Component buildKeywordSearch() {
@@ -298,6 +299,7 @@ public class CompositionNoteAiView extends Div implements BeforeEnterObserver {
         // Show the popover when the icon is clicked
 
         formLayout.add(searchField, searchButton, ragButton, mcpButton, infoIcon);
+        //formLayout.expand(searchField);
 
         formLayout.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1), // 1 column for narrow screens

@@ -1,10 +1,10 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.4.5'
+	id 'org.springframework.boot' version '3.4.6'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'org.graalvm.buildtools.native' version '0.10.6'
     id 'com.vaadin' version '24.7.3'
-    id 'org.cyclonedx.bom' version '2.3.0'
+    id 'org.cyclonedx.bom' version '2.3.1'
 }
 
 group = 'com.thomasvitale'
@@ -21,7 +21,7 @@ repositories {
 }
 
 ext {
-    set('arconiaVersion', "0.10.1")
+    set('arconiaVersion', "0.12.0")
 	set('springAiVersion', "1.0.0-M8")
     set('vaadinVersion', "24.7.3")
 }
@@ -41,6 +41,7 @@ dependencies {
     implementation 'org.springframework.ai:spring-ai-starter-model-mistral-ai'
     implementation 'org.springframework.ai:spring-ai-starter-model-openai'
     implementation 'org.springframework.ai:spring-ai-starter-vector-store-pgvector'
+    implementation 'org.springframework.ai:spring-ai-starter-mcp-client'
 
     implementation 'com.vaadin:vaadin-spring-boot-starter'
     implementation 'org.parttio:line-awesome:2.1.0'
@@ -50,7 +51,7 @@ dependencies {
     implementation 'io.arconia:arconia-opentelemetry-spring-boot-starter'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    testAndDevelopmentOnly 'io.arconia:arconia-dev-services-opentelemetry-lgtm'
+    testAndDevelopmentOnly 'io.arconia:arconia-dev-services-lgtm'
     testAndDevelopmentOnly 'io.arconia:arconia-dev-services-postgresql'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

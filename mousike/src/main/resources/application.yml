@@ -25,6 +25,18 @@ spring:
       embedding:
         options:
           model: mistral-embed
+    mcp:
+      client:
+        toolcallback:
+          enabled: true
+        stdio:
+          connections:
+            midi-server:
+              command: java
+              args:
+                - "-Dquarkus.http.port=8081"
+                - "-jar"
+                - "/Users/thomas/Developer/logic-pro-mcp-server/build/logic-pro-mcp-server-1.0.0-SNAPSHOT-runner.jar"
     openai:
       chat:
         options:
