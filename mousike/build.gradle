@@ -1,9 +1,9 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.4.6'
+	id 'org.springframework.boot' version '3.5.3'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'org.graalvm.buildtools.native' version '0.10.6'
-    id 'com.vaadin' version '24.7.3'
+    id 'com.vaadin' version '24.8.3'
     id 'org.cyclonedx.bom' version '2.3.1'
 }
 
@@ -12,7 +12,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
+        languageVersion = JavaLanguageVersion.of(24)
     }
 }
 
@@ -21,9 +21,9 @@ repositories {
 }
 
 ext {
-    set('arconiaVersion', "0.12.0")
-	set('springAiVersion', "1.0.0-M8")
-    set('vaadinVersion', "24.7.3")
+    set('arconiaVersion', "0.13.0")
+	set('springAiVersion', "1.0.0")
+    set('vaadinVersion', "24.8.3")
 }
 
 dependencies {
@@ -31,7 +31,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    implementation 'net.ttddyy.observation:datasource-micrometer-spring-boot:1.1.1'
+    implementation 'net.ttddyy.observation:datasource-micrometer-spring-boot:1.1.2'
 
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.flywaydb:flyway-database-postgresql'

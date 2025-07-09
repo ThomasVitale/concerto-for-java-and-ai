@@ -14,10 +14,10 @@ spring:
     chat:
       client:
         observations:
-          include-prompt: true
+          log-prompt: true
       observations:
-        include-prompt: true
-        include-completion: true
+        log-prompt: true
+        log-completion: true
     mistralai:
       chat:
         options:
@@ -47,7 +47,7 @@ spring:
           model: text-embedding-3-small
     vectorstore:
       observations:
-        include-query-response: true
+        log-query-response: true
       pgvector:
         dimensions: 1024
         index-type: hnsw
@@ -75,7 +75,6 @@ arconia:
     services:
       postgresql:
         image-name: pgvector/pgvector:pg17
-        reusable: true
   otel:
     metrics:
       interval: 5s

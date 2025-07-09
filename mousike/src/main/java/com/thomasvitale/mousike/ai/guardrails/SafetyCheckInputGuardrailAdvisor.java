@@ -5,7 +5,6 @@ import org.springframework.ai.chat.client.ChatClientRequest;
 import org.springframework.ai.chat.client.ChatClientResponse;
 import org.springframework.ai.chat.client.advisor.api.CallAdvisor;
 import org.springframework.ai.chat.client.advisor.api.CallAdvisorChain;
-import org.springframework.ai.chat.client.advisor.api.CallAroundAdvisorChain;
 import org.springframework.ai.chat.messages.UserMessage;
 
 public class SafetyCheckInputGuardrailAdvisor implements CallAdvisor {
@@ -17,8 +16,7 @@ public class SafetyCheckInputGuardrailAdvisor implements CallAdvisor {
     }
 
     @Override
-    public ChatClientResponse adviseCall(ChatClientRequest chatClientRequest, CallAroundAdvisorChain chain) {
-        CallAdvisorChain callAdvisorChain = (CallAdvisorChain) chain;
+    public ChatClientResponse adviseCall(ChatClientRequest chatClientRequest, CallAdvisorChain callAdvisorChain) {
         UserMessage userMessage = chatClientRequest.prompt().getUserMessage();
 
         Allowed allowed = chatClient.prompt()
