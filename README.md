@@ -4,30 +4,78 @@
 
 ## Stack
 
-* Java 23 (with GraalVM)
-* Spring Boot 3.4 (with Spring AI)
+* Java 25 (with GraalVM)
+* Spring Boot 4.0 (with Spring AI)
 * Vaadin
+* Arconia
 
 ## Mousike
 
-First, make sure you have an [OpenAI account](https://platform.openai.com/signup).
-Then, define an environment variable with the OpenAI API Key associated to your OpenAI account as the value.
+### Mistral AI
+
+The application consumes chat and embedding models from the [Mistral AI](https://mistral.ai) platform.
+
+#### Create an account
+
+Visit [console.mistral.ai](https://console.mistral.ai) and sign up for a new account.
+You can choose the "Experiment" plan, which gives you access to the Mistral APIs for free.
+
+#### Configure API Key
+
+In the Mistral AI console, navigate to _API Keys_ and generate a new API key.
+Copy and securely store your API key on your machine as an environment variable.
+The application will use it to access the Mistral AI API.
 
 ```shell
-export SPRING_AI_OPENAI_API_KEY=<INSERT KEY HERE>
+export SPRING_AI_MISTRAL_AI_API_KEY=<YOUR-API-KEY>
 ```
 
-Finally, run the Spring Boot application.
+### OpenAI
+
+The application consumes models from the [OpenAI](https://openai.com) platform.
+
+#### Create an account
+
+Visit [platform.openai.com](https://platform.openai.com) and sign up for a new account.
+
+#### Configure API Key
+
+In the OpenAI console, navigate to _Dashboard > API Keys_ and generate a new API key.
+Copy and securely store your API key on your machine as an environment variable.
+The application will use it to access the OpenAI API.
 
 ```shell
-cd mousike
-./gradlew bootTestRun
+export SPRING_AI_ OPENAI_API_KEY=<YOUR-API-KEY>
 ```
 
-You can access the application at http://localhost:8080.
+### Running the application
 
-The application relies on the native Testcontainers support in Spring Boot to spin up a PostgreSQL database with the pgvector extension,
-and a Grafana LGTM service for observability.
+Run the application.
 
-Grafana is listening to port 3000. Check your container runtime to find the port to which is exposed to your localhost and access Grafana from http://localhost:<port>.
-The credentials are `admin`/`admin`.
+```shell
+./gradlew bootRun
+```
+
+Alternatively, you can use the [Arconia CLI](https://docs.arconia.io/arconia-cli/latest/index.html):
+
+```shell
+arconia dev
+```
+
+Under the hood, the Arconia framework will automatically spin up the needed backing services using [Arconia Dev Services](https://arconia.io/docs/arconia/latest/dev-services/) and Testcontainers:
+
+* Docling document processor
+* Phoenix AI observability platform
+* PostgreSQL database.
+
+The application will be accessible at http://localhost:8080.
+
+### Accessing Phoenix
+
+The application logs will show you the URL where you can access the Phoenix AI observability platform.
+
+```logs
+...Phoenix UI: http://localhost:<port>
+```
+
+By default, traces are exported via OTLP using the HTTP/Protobuf format.
