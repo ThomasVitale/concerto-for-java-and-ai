@@ -2,59 +2,26 @@ spring:
   application:
     name: mousike
 
-  http:
-    client:
-      connect-timeout: 30s
-      read-timeout: 60s
-
   ai:
     model:
       chat: mistral
       embedding: mistral
-    chat:
-      client:
-        observations:
-          log-prompt: true
-      observations:
-        log-prompt: true
-        log-completion: true
     mistralai:
       chat:
         options:
-          model: mistral-small-latest
+          model: mistral-medium-latest
       embedding:
         options:
           model: mistral-embed
-    mcp:
-      client:
-        toolcallback:
-          enabled: true
-        stdio:
-          connections:
-            midi-server:
-              command: java
-              args:
-                - "-Dquarkus.http.port=8081"
-                - "-jar"
-                - "/Users/thomas/Developer/logic-pro-mcp-server/build/logic-pro-mcp-server-1.0.0-SNAPSHOT-runner.jar"
     openai:
       chat:
         options:
           model: gpt-4o
           temperature: 0.7
-      embedding:
-        options:
-          model: text-embedding-3-small
     vectorstore:
-      observations:
-        log-query-response: true
       pgvector:
         dimensions: 1024
         index-type: hnsw
-    retry:
-      backoff:
-        initial-interval: 3000ms
-        multiplier: 7
 
   servlet:
     multipart:
@@ -64,6 +31,10 @@ spring:
     virtual:
       enabled: true
 
+logging:
+  level:
+    org.atmosphere: warn
+
 management:
   endpoints:
     web:
@@ -71,13 +42,13 @@ management:
         include: "*"
 
 arconia:
-  dev:
-    services:
-      postgresql:
-        image-name: pgvector/pgvector:pg17
   otel:
     metrics:
-      interval: 5s
+      exporter:
+        interval: 5s
 
 vaadin:
   launch-browser: true
+  allowed-packages: com.vaadin,org.vaadin,com.flowingcode,com.thomasvitale.mousike
+  pnpm:
+    enable: true

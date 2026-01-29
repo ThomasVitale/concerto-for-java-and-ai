@@ -1,7 +1,5 @@
 package com.thomasvitale.mousike.domain.assistant;
 
-import com.thomasvitale.mousike.ai.InstrumentTools;
-
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
@@ -26,6 +24,8 @@ public class ComposerAssistantService {
         The chord progressions reflect the tone of the scene and adheres to the movie genre, whether it's suspense, action, or emotion.
         The orchestration strategy details how the instruments will be layered or introduced at different stages to create atmosphere,
         build tension, or evoke emotions. If rhythmic instruments are suggested (e.g. percussions, harp, piano), mention them first.
+
+        You can only choose from these instruments: piano, strings, brass, cello, percussions, drones, harp.
 
         Instructions:
 
@@ -67,10 +67,9 @@ public class ComposerAssistantService {
 
     private final ChatClient chatClient;
 
-    public ComposerAssistantService(ChatClient.Builder chatClientBuilder, VectorStore vectorStore, InstrumentTools instrumentTools) {
+    public ComposerAssistantService(ChatClient.Builder chatClientBuilder, VectorStore vectorStore) {
         this.chatClient = chatClientBuilder
                 .defaultSystem(SYSTEM_PROMPT)
-                .defaultTools(instrumentTools)
                 .defaultAdvisors(RetrievalAugmentationAdvisor.builder()
                         .queryTransformers(RewriteQueryTransformer.builder().chatClientBuilder(chatClientBuilder.clone()).build())
                         .documentRetriever(VectorStoreDocumentRetriever.builder()

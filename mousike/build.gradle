@@ -1,10 +1,9 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.5.7'
+	id 'org.springframework.boot' version '4.0.2'
 	id 'io.spring.dependency-management' version '1.1.7'
-	id 'org.graalvm.buildtools.native' version '0.11.1'
-    id 'com.vaadin' version '24.9.5'
-    id 'org.cyclonedx.bom' version '2.4.1'
+    id 'com.vaadin' version '25.0.3'
+    id 'org.cyclonedx.bom' version '3.0.2'
 }
 
 group = 'com.thomasvitale'
@@ -12,49 +11,60 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(24)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
 repositories {
 	mavenCentral()
+    maven {
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+    }
 }
 
 ext {
-    set('arconiaVersion', "0.13.0")
-	set('springAiVersion', "1.0.0")
-    set('vaadinVersion', "24.8.3")
+    set('arconiaVersion', "0.22.0-SNAPSHOT")
+	set('springAiVersion', "2.0.0-M2")
+    set('vaadinVersion', "25.0.3")
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 
-    implementation 'net.ttddyy.observation:datasource-micrometer-spring-boot:1.2.0'
-
-    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.springframework.boot:spring-boot-starter-flyway'
     implementation 'org.flywaydb:flyway-database-postgresql'
 
     runtimeOnly 'org.postgresql:postgresql'
 
-    implementation 'org.springframework.ai:spring-ai-starter-model-mistral-ai'
-    implementation 'org.springframework.ai:spring-ai-starter-model-openai'
-    implementation 'org.springframework.ai:spring-ai-starter-vector-store-pgvector'
-    implementation 'org.springframework.ai:spring-ai-starter-mcp-client'
-
-    implementation 'com.vaadin:vaadin-spring-boot-starter'
-    implementation 'org.parttio:line-awesome:2.1.0'
+    implementation "org.springframework.ai:spring-ai-starter-model-mistral-ai"
+    implementation "org.springframework.ai:spring-ai-starter-model-openai"
+    implementation "org.springframework.ai:spring-ai-starter-vector-store-pgvector"
 
     implementation "org.springframework.ai:spring-ai-advisors-vector-store"
     implementation "org.springframework.ai:spring-ai-rag"
-    implementation 'io.arconia:arconia-opentelemetry-spring-boot-starter'
 
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    testAndDevelopmentOnly 'io.arconia:arconia-dev-services-lgtm'
-    testAndDevelopmentOnly 'io.arconia:arconia-dev-services-postgresql'
+    implementation "com.vaadin:vaadin-spring-boot-starter"
+    implementation "org.parttio:line-awesome:2.1.0"
 
+    implementation "io.arconia:arconia-ai-docling-document-reader"
+    implementation "io.arconia:arconia-openinference-semantic-conventions"
+    implementation "io.arconia:arconia-opentelemetry-spring-boot-starter"
+    implementation 'net.ttddyy.observation:datasource-micrometer-spring-boot'
+
+    developmentOnly "com.vaadin:vaadin-dev"
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
+    testAndDevelopmentOnly "io.arconia:arconia-dev-services-docling"
+    testAndDevelopmentOnly "io.arconia:arconia-dev-services-phoenix"
+    testAndDevelopmentOnly "io.arconia:arconia-dev-services-postgresql"
+
+    testImplementation "org.springframework.boot:spring-boot-starter-data-jdbc-test"
+    testImplementation "org.springframework.boot:spring-boot-starter-flyway-test"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "org.springframework.boot:spring-boot-starter-validation-test"
+    testImplementation "org.springframework.boot:spring-boot-starter-webmvc-test"
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
@@ -64,6 +74,10 @@ dependencyManagement {
         mavenBom "io.arconia:arconia-bom:${arconiaVersion}"
         mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs.add("-parameters")
 }
 
 tasks.named('test') {

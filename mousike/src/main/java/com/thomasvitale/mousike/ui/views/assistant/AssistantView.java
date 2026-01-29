@@ -1,13 +1,13 @@
 package com.thomasvitale.mousike.ui.views.assistant;
 
 import com.thomasvitale.mousike.domain.assistant.ComposerAssistantService;
-import com.thomasvitale.mousike.ui.layout.MainLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.html.OrderedList;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.AlignItems;
@@ -21,8 +21,11 @@ import com.vaadin.flow.theme.lumo.LumoUtility.MaxWidth;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 
+import org.vaadin.lineawesome.LineAwesomeIconUrl;
+
 @PageTitle("Composer Assistant")
-@Route(value = "composer-assistant", layout = MainLayout.class)
+@Route("/composer-assistant")
+@Menu(icon = LineAwesomeIconUrl.MAGIC_SOLID, order = 3)
 public class AssistantView extends Main {
 
     private OrderedList movieContainer;

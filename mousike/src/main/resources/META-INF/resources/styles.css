@@ -1,0 +1,9 @@
+@import url('styles/chat-view.css');
+@import url('styles/image-gallery-view.css');
+html {
+      --lumo-size-xl: 4rem;
+      --lumo-size-l: 3rem;
+      --lumo-size-m: 2.5rem;
+      --lumo-size-s: 2rem;
+      --lumo-size-xs: 1.75rem;
+}
