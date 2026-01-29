@@ -1,9 +1,9 @@
 package com.thomasvitale.mousike.ai;
 
+import org.jspecify.annotations.Nullable;
+import org.springframework.ai.chat.client.AdvisorParams;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.ChatOptions;
-import org.springframework.ai.mistralai.MistralAiChatOptions;
-import org.springframework.ai.mistralai.api.MistralAiApi;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,26 +13,24 @@ public class StructuredDataExtractionService {
 			Extract structured data from the provided text.
 			If you do not know the value of a field asked to extract,
 			do not include any value for the field in the result.
-			Finally, save the object in the database.
 			""";
 
     private final ChatClient chatClient;
 
     public StructuredDataExtractionService(ChatClient.Builder chatClientBuilder) {
         this.chatClient = chatClientBuilder
+                .defaultAdvisors(AdvisorParams.ENABLE_NATIVE_STRUCTURED_OUTPUT)
                 .defaultOptions(ChatOptions.builder()
                         .temperature(0.0)
                         .build())
                 .build();
     }
 
+    @Nullable
     public <T> T extract(String unstructuredData, Class<T> structuredType) {
         return chatClient.prompt()
                 .system(DEFAULT_STRUCTURED_DATA_EXTRACTION_PROMPT)
                 .user(unstructuredData)
-                .options(MistralAiChatOptions.builder()
-                        .responseFormat(new MistralAiApi.ChatCompletionRequest.ResponseFormat("json_object", null))
-                        .build())
                 .call()
                 .entity(structuredType);
     }

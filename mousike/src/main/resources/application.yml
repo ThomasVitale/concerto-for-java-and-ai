@@ -42,6 +42,10 @@ management:
         include: "*"
 
 arconia:
+  dev:
+    services:
+      phoenix:
+        image-name: arizephoenix/phoenix:version-12.9-nonroot
   otel:
     metrics:
       exporter:
