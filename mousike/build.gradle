@@ -1,9 +1,9 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '4.0.3'
+	id 'org.springframework.boot' version '4.0.7'
 	id 'io.spring.dependency-management' version '1.1.7'
-    id 'com.vaadin' version '25.0.6'
-    id 'org.cyclonedx.bom' version '3.2.0'
+    id 'com.vaadin' version '25.1.8'
+    id 'org.cyclonedx.bom' version '3.2.4'
 }
 
 group = 'com.thomasvitale'
@@ -20,9 +20,9 @@ repositories {
 }
 
 ext {
-    set('arconiaVersion', "0.23.1")
-	set('springAiVersion', "2.0.0-M2")
-    set('vaadinVersion', "25.0.6")
+    set('arconiaVersion', "0.28.0")
+	set('springAiVersion', "2.0.0")
+    set('vaadinVersion', "25.1.8")
 }
 
 dependencies {
@@ -40,14 +40,14 @@ dependencies {
     implementation "org.springframework.ai:spring-ai-starter-model-openai"
     implementation "org.springframework.ai:spring-ai-starter-vector-store-pgvector"
 
-    implementation "org.springframework.ai:spring-ai-advisors-vector-store"
+    implementation "org.springframework.ai:spring-ai-vector-store-advisor"
     implementation "org.springframework.ai:spring-ai-rag"
 
     implementation "com.vaadin:vaadin-spring-boot-starter"
     implementation "org.parttio:line-awesome:2.1.0"
 
     implementation "io.arconia:arconia-ai-docling-document-reader"
-    implementation "io.arconia:arconia-openinference-semantic-conventions"
+    implementation "io.arconia:arconia-openinference-ai-semantic-conventions"
     implementation "io.arconia:arconia-opentelemetry-spring-boot-starter"
     implementation 'net.ttddyy.observation:datasource-micrometer-spring-boot'
 

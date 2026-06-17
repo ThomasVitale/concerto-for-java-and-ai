@@ -78,8 +78,7 @@ public class ComposerAssistantService {
                                 .build())
                         .build())
                 .defaultOptions(ChatOptions.builder()
-                        .model("mistral-large-latest")
-                        .build())
+                        .model("mistral-large-latest"))
                 .build();
     }
 

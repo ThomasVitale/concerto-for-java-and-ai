@@ -26,8 +26,7 @@ public class QuestionAnsweringService {
                                         .build())
                                 .build())
                 .defaultOptions(ChatOptions.builder()
-                        .temperature(0.0)
-                        .build())
+                        .temperature(0.0))
                 .build();
     }
 

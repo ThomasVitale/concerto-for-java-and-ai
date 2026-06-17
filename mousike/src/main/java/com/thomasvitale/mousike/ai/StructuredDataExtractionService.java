@@ -21,8 +21,7 @@ public class StructuredDataExtractionService {
         this.chatClient = chatClientBuilder
                 .defaultAdvisors(AdvisorParams.ENABLE_NATIVE_STRUCTURED_OUTPUT)
                 .defaultOptions(ChatOptions.builder()
-                        .temperature(0.0)
-                        .build())
+                        .temperature(0.0))
                 .build();
     }
 

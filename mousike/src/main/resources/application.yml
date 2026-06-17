@@ -8,14 +8,11 @@ spring:
       embedding: mistral
     mistralai:
       chat:
-        options:
           model: mistral-medium-latest
       embedding:
-        options:
           model: mistral-embed
     openai:
       chat:
-        options:
           model: gpt-4o
           temperature: 0.7
     vectorstore:
@@ -40,16 +37,6 @@ management:
     web:
       exposure:
         include: "*"
-
-arconia:
-  dev:
-    services:
-      phoenix:
-        image-name: arizephoenix/phoenix:version-12.9-nonroot
-  otel:
-    metrics:
-      exporter:
-        interval: 5s
 
 vaadin:
   launch-browser: true

@@ -38,8 +38,7 @@ public class MidiService {
                 .user(question)
                 .tools(midiTools)
                 .options(ChatOptions.builder()
-                        .model("mistral-large-latest")
-                        .build())
+                        .model("mistral-large-latest"))
                 .call()
                 .content();
     }

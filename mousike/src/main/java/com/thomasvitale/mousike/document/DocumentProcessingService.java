@@ -12,6 +12,7 @@ import ai.docling.serve.api.DoclingServeApi;
 import ai.docling.serve.api.convert.request.ConvertDocumentRequest;
 import ai.docling.serve.api.convert.request.source.FileSource;
 import ai.docling.serve.api.convert.response.ConvertDocumentResponse;
+import ai.docling.serve.api.convert.response.InBodyConvertDocumentResponse;
 
 @Service
 public class DocumentProcessingService {
@@ -42,7 +43,7 @@ public class DocumentProcessingService {
                                 .build())
                         .build());
 
-        return response.getDocument().getMarkdownContent();
+        return ((InBodyConvertDocumentResponse) response).getDocument().getMarkdownContent();
     }
 
 }
