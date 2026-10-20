@@ -1,9 +1,9 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '4.0.7'
+	id 'org.springframework.boot' version '4.1.1'
 	id 'io.spring.dependency-management' version '1.1.7'
-    id 'com.vaadin' version '25.1.8'
-    id 'org.cyclonedx.bom' version '3.2.4'
+    id 'com.vaadin' version '25.3.3'
+    id 'org.cyclonedx.bom' version '3.5.1'
 }
 
 group = 'com.thomasvitale'
@@ -20,9 +20,9 @@ repositories {
 }
 
 ext {
-    set('arconiaVersion', "0.28.0")
-	set('springAiVersion', "2.0.0")
-    set('vaadinVersion', "25.1.8")
+    set('arconiaVersion', "0.31.0")
+	set('springAiVersion', "2.0.1")
+    set('vaadinVersion', "25.3.3")
 }
 
 dependencies {
