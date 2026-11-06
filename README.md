@@ -4,53 +4,21 @@
 
 ## Stack
 
-* Java 25 (with GraalVM)
-* Spring Boot 4.0 (with Spring AI)
+* Java 25
+* Spring Boot 4.2
+* Spring AI 2.1
 * Vaadin
 * Arconia
 
 ## Mousike
 
-### Mistral AI
+### Ollama
 
-The application consumes chat and embedding models from the [Mistral AI](https://mistral.ai) platform.
-
-#### Create an account
-
-Visit [console.mistral.ai](https://console.mistral.ai) and sign up for a new account.
-You can choose the "Experiment" plan, which gives you access to the Mistral APIs for free.
-
-#### Configure API Key
-
-In the Mistral AI console, navigate to _API Keys_ and generate a new API key.
-Copy and securely store your API key on your machine as an environment variable.
-The application will use it to access the Mistral AI API.
-
-```shell
-export SPRING_AI_MISTRAL_AI_API_KEY=<YOUR-API-KEY>
-```
-
-### OpenAI
-
-The application consumes models from the [OpenAI](https://openai.com) platform.
-
-#### Create an account
-
-Visit [platform.openai.com](https://platform.openai.com) and sign up for a new account.
-
-#### Configure API Key
-
-In the OpenAI console, navigate to _Dashboard > API Keys_ and generate a new API key.
-Copy and securely store your API key on your machine as an environment variable.
-The application will use it to access the OpenAI API.
-
-```shell
-export SPRING_AI_ OPENAI_API_KEY=<YOUR-API-KEY>
-```
+The application consumes models from an [Ollama](https://ollama.ai) inference server. If you don't have an Ollama server running locally on your laptop, an Ollama service will be automatically spun up for you by the [Arconia Dev Services](https://docs.arconia.io/arconia/latest/dev-services/) when you run the application. Either way, Spring AI will take care of pulling the needed Ollama models when the application starts, if they are not available yet on your machine.
 
 ### Running the application
 
-Run the application.
+Run the application as follows:
 
 ```shell
 ./gradlew bootRun
@@ -65,17 +33,19 @@ arconia dev
 Under the hood, the Arconia framework will automatically spin up the needed backing services using [Arconia Dev Services](https://arconia.io/docs/arconia/latest/dev-services/) and Testcontainers:
 
 * Docling document processor
-* Phoenix AI observability platform
+* Grafana LGTM observability platform
 * PostgreSQL database.
 
 The application will be accessible at http://localhost:8080.
 
-### Accessing Phoenix
+### Accessing Grafana
 
-The application logs will show you the URL where you can access the Phoenix AI observability platform.
+The application logs will show you the URL where you can access the Grafana observability platform.
 
 ```logs
-...Phoenix UI: http://localhost:<port>
+...i.a.d.s.startup  : Dev Service 'lgtm' links: Grafana: http://localhost:<port>
 ```
 
-By default, traces are exported via OTLP using the HTTP/Protobuf format.
+By default, logs, metrics, and traces are exported via OTLP using the HTTP/Protobuf format.
+
+In Grafana, you can query the telemetry from the "Drilldown" and "Explore" sections.

@@ -1,0 +1,39 @@
+[
+  {
+    "production": "The Mars Cover",
+    "title": "The Chase on Mars",
+    "description": "Amid the red, rugged landscape of Mars, two intrepid astronauts uncover hidden treasures beneath the alien soil, only to be suddenly pursued by hostile extraterrestrials, forcing them to flee for their lives through the perilous Martian terrain.",
+    "medium": "FILM",
+    "genre": "action",
+    "markers": [
+      {"timeMarker": "00:00", "comment": "The chase on Mars is starting, establish dynamic rhythm with loud percussions and strings."},
+      {"timeMarker": "00:07", "comment": "Increase the tension as the astronauts keep running across the wide Martian mountains."},
+      {"timeMarker": "00:14", "comment": "More hammering rhythm and increase in tension with a hint of hope and brass epicness, the astronauts might make it."}
+    ]
+  },
+  {
+    "production": "The Loneliest",
+    "title": "Noisy silence",
+    "description": "In the vast, echoing halls of her grand mansion, an elderly woman, enveloped in solitude and melancholy, sits wistfully as the haunting melodies of an old vinyl recorder fill the room with nostalgic tunes from a bygone era.",
+    "medium": "FILM",
+    "genre": "drama",
+    "markers": [
+      {"timeMarker": "00:00", "comment": "Crying melancholic music establishing a mood of sadness."},
+      {"timeMarker": "00:07", "comment": "More intense melancholy."},
+      {"timeMarker": "00:15", "comment": "Richer sound wrapping the sad moment as the main character cries, alone."}
+    ]
+  },
+  {
+    "production": "The Doom",
+    "title": "This Is The End",
+    "description": "In the dimly lit confines of his apartment, the man, weary from a long day's work, is taken aback by the unexpected presence of a mysterious woman who, with a cold and calculated resolve, raises a gun and fatally shoots him, leaving his lifeless body to crumple in the flickering shadows.",
+    "medium": "FILM",
+    "genre": "noir",
+    "markers": [
+      {"timeMarker": "00:00", "comment": "The man enters his house, the tension starts rising, timed by percussions. Is he in danger?"},
+      {"timeMarker": "00:07", "comment": "Tension rises, is something bad about to happen? A solo cello sounds almost like crying."},
+      {"timeMarker": "00:14", "comment": "The scene gets really ominous as the killer reveals herself."},
+      {"timeMarker": "00:21", "comment": "More tension as the woman is getting ready to shoot, an organ marks the fatality of the scene."}
+    ]
+  }
+]

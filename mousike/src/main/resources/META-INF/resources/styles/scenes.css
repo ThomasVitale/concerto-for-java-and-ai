@@ -1,0 +1,143 @@
+.scene-sheets {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(26rem, 100%), 1fr));
+  gap: var(--vaadin-gap-l, 1.5rem);
+}
+
+.scene-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1.25rem 1.4rem 1.4rem;
+  border: 1px solid var(--studio-rule);
+  border-radius: 12px;
+  background: var(--studio-panel);
+}
+
+.scene-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.scene-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+/* The production the scene belongs to, above its title like an eyebrow */
+.scene-production {
+  color: var(--vaadin-text-color-secondary);
+  font-size: var(--aura-font-size-xs);
+  font-weight: var(--aura-font-weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.scene-title {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.scene-meta {
+  color: var(--vaadin-text-color-secondary);
+  font-size: var(--aura-font-size-s);
+}
+
+.scene-description {
+  margin: 0;
+  color: var(--vaadin-text-color);
+  line-height: 1.5;
+}
+
+/* The timeline: a locator rail, timecode on each marker */
+.scene-timeline {
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid var(--studio-keycap-edge);
+  margin-left: 0.4rem;
+  padding-left: 0;
+}
+
+.timeline-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4.6rem minmax(0, 1fr);
+  gap: 0.85rem;
+  padding: 0.45rem 0 0.45rem 1rem;
+  align-items: start;
+}
+
+/* The locator flag on the rail */
+.timeline-row::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 0.75rem;
+  width: 0.7rem;
+  height: 2px;
+  background: var(--studio-keycap-edge);
+}
+
+.marker-time-mark {
+  font-size: var(--aura-font-size-s);
+  font-weight: var(--aura-font-weight-medium);
+}
+
+.marker-comment-text {
+  padding-top: 0.1rem;
+}
+
+.marker-comment-text {
+  line-height: 1.45;
+}
+
+/* New scene dialog */
+.new-scene-dialog-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.provenance-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.provenance-row:empty {
+  display: none;
+}
+
+.scene-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--vaadin-border-color-secondary);
+}
+
+.field-label {
+  font-size: var(--aura-font-size-s);
+  font-weight: var(--aura-font-weight-medium);
+  color: var(--vaadin-text-color-secondary);
+}
+
+.marker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.marker-row {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.marker-time input {
+  font-family: var(--studio-font-mono);
+}

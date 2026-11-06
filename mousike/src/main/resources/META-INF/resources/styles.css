@@ -1,9 +1,148 @@
-@import url('styles/chat-view.css');
-@import url('styles/image-gallery-view.css');
+@import url('styles/main-layout.css');
+@import url('styles/notebook.css');
+@import url('styles/assistant.css');
+@import url('styles/scenes.css');
+@import url('styles/chord-progression.css');
+@import url('styles/composition-plan.css');
+
+/*
+ * Mousike — a light studio with a Nord on the desk.
+ * A white window floats on a grey desk; one accent, Nord red, for the main action and for sound; the slate
+ * blue-grey of Nord's sub-panels for everything the AI decided; green LEDs for status; the dark Nord display for
+ * timecode and the planner's narration; piano keys for the brand; pads that light while a chord sounds.
+ * Light mode on purpose: it reads on a projector. Aura is customised through its -light/-dark properties.
+ */
 html {
-      --lumo-size-xl: 4rem;
-      --lumo-size-l: 3rem;
-      --lumo-size-m: 2.5rem;
-      --lumo-size-s: 2rem;
-      --lumo-size-xs: 1.75rem;
+  color-scheme: light;
+
+  /* Console, panels, engraving: airy, like a macOS window on a pale desk */
+  --studio-console: #f0f2f4;       /* the sidebar: cool grey, never cream */
+  --studio-panel: #ffffff;         /* the window: a white panel */
+  --studio-panel-deep: #f2f4f6;    /* recessed: inputs, keycaps, hover */
+  --studio-ink: #1f2328;           /* text, knob caps */
+  --studio-ink-soft: #6b7280;      /* engraved labels */
+  --studio-rule: #e2e5e9;          /* panel seams */
+  --studio-keycap: #eef1f4;        /* a grey keycap: pads, chips */
+  --studio-keycap-edge: #d9dde2;
+  --studio-lcd: #1b2530;           /* the Nord display: dark, light-blue characters */
+  --studio-lcd-text: #d9e7f2;
+
+  /* LEDs and lamps */
+  --studio-red: #cf2031;           /* Nord red: the one accent */
+  --studio-led-green: #35b83a;     /* local, online, ok */
+  --studio-led-red: var(--studio-red);   /* refused, errors, and the lamp of a sounding pad */
+
+  /* Voices */
+  --studio-key: var(--studio-red);               /* the composer acts: the main action of a view, the transport */
+  --studio-annotation: #4f667c;                  /* what the AI decided: the slate of a Nord sub-panel */
+  --studio-annotation-soft: color-mix(in srgb, var(--studio-annotation) 10%, transparent);
+
+  /* Type: Aura's own sans (self-hosted); the counters are mono like a timecode display */
+  --studio-font-display: var(--aura-font-family);
+  --studio-font-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  /* Track colours, one per note kind, kept apart from the annotation blue */
+  --kind-harmony: #6a3fc4;
+  --kind-melody: #e8781f;
+  --kind-rhythm: #c9a21a;
+  --kind-instrument: #148a7e;
+  --kind-orchestration: #7f5a27;
+  --kind-arrangement: #3e8a46;
+  --kind-sound_design: #1d8fb5;
+  --kind-style: #c43f7e;
+  --kind-technique: #6b7280;
+
+  --aura-background-color-light: var(--studio-console);
+  --aura-background-color-dark: #16191b;
+  --aura-app-background: var(--aura-background-color);
+  --aura-text-color-light: var(--studio-ink);
+  --aura-accent-color-light: var(--studio-key);
+  --aura-accent-color-dark: #ff6b6b;
+  --aura-contrast-level: 1.5;
+  --aura-base-radius: 6;
+  --aura-app-layout-inset: 0px;   /* flat, edge to edge, like a Mac app: a grey sidebar beside a white page */
+  --aura-app-layout-radius: 0px;  /* and square: Aura still rounds the content's corner where it meets the sidebar */
+  --vaadin-focus-ring-color: var(--studio-annotation);   /* a focused field is not an error: slate, not red */
+}
+
+/* Anything with a data-kind attribute gets its hue as --kind */
+[data-kind="harmony"] { --kind: var(--kind-harmony); }
+[data-kind="melody"] { --kind: var(--kind-melody); }
+[data-kind="rhythm"] { --kind: var(--kind-rhythm); }
+[data-kind="instrument"] { --kind: var(--kind-instrument); }
+[data-kind="orchestration"] { --kind: var(--kind-orchestration); }
+[data-kind="arrangement"] { --kind: var(--kind-arrangement); }
+[data-kind="sound_design"] { --kind: var(--kind-sound_design); }
+[data-kind="style"] { --kind: var(--kind-style); }
+[data-kind="technique"] { --kind: var(--kind-technique); }
+
+/* Headings: sentence case, semibold, a little tight */
+h2, h3 {
+  font-family: var(--studio-font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-family: var(--studio-font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* A grey sidebar beside a white page, separated by one hairline (Aura's own properties) */
+html {
+  --vaadin-app-layout-navbar-background: var(--studio-panel);
+  --vaadin-app-layout-drawer-background: var(--studio-console);
+  --vaadin-side-nav-item-border-radius: 8px;
+}
+
+vaadin-app-layout::part(content) {
+  background: var(--studio-panel);
+}
+
+vaadin-app-layout::part(drawer) {
+  border-inline-end: 1px solid var(--studio-rule);
+}
+
+/* One hairline between sidebar and page, the drawer's: Aura adds a second one on the content side when the drawer is
+   open (same selector as Aura's rule, so this one wins by coming later) */
+vaadin-app-layout[has-drawer][drawer-opened]:not([overlay])::part(content) {
+  border-inline-start-width: 0;
+}
+
+/* A timecode display: the Nord screen, dark with light characters */
+.studio-timecode {
+  display: inline-block;
+  padding: 0.12rem 0.5rem;
+  border-radius: 5px;
+  background: var(--studio-lcd);
+  color: var(--studio-lcd-text);
+  font-family: var(--studio-font-mono);
+  font-size: var(--aura-font-size-s);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+}
+
+/* An LED: lit in a colour, or dark when off */
+.studio-led {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--led, var(--studio-rule));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--led, var(--studio-rule)) 40%, transparent), 0 0 6px color-mix(in srgb, var(--led, transparent) 55%, transparent);
+}
+
+/* Musical notation data only: time markers, chord symbols */
+.studio-mono {
+  font-family: var(--studio-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

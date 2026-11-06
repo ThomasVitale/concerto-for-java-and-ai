@@ -2,35 +2,77 @@ spring:
   application:
     name: mousike
 
-  ai:
-    model:
-      chat: mistral
-      embedding: mistral
-    mistralai:
-      chat:
-          model: mistral-medium-latest
-      embedding:
-          model: mistral-embed
-    openai:
-      chat:
-          model: gpt-4o
-          temperature: 0.7
-    vectorstore:
-      pgvector:
-        dimensions: 1024
-        index-type: hnsw
-
-  servlet:
-    multipart:
-      max-file-size: 10MB
-
   threads:
     virtual:
       enabled: true
 
-logging:
-  level:
-    org.atmosphere: warn
+  modulith:
+    events:
+      republish-outstanding-events-on-restart: true
+      jdbc:
+        schema-initialization:
+          enabled: false
+
+  http:
+    clients:
+      imperative:
+        factory: jdk
+      connect-timeout: 10s
+      read-timeout: 5m
+
+  servlet:
+    multipart:
+      max-file-size: 25MB
+
+  ai:
+    model:
+      chat: ollama
+      embedding: ollama
+    ollama:
+      chat:
+        model: qwen3.5:4b
+        think: false
+        temperature: 0.3
+      decision:
+        model: d1-omni:600m
+      embedding:
+        model: granite-embedding:278m
+      init:
+        pull-model-strategy: when_missing
+        chat:
+          additional-models: lfm3-omni:2b
+    vectorstore:
+      pgvector:
+        dimensions: 768
+        index-type: hnsw
+        initialize-schema: false
+    tools:
+      resolution:
+        fallback:
+          enabled: true
+    session:
+      repository:
+        jdbc:
+          initialize-schema: never
+    mcp:
+      client:
+        initialized: false
+        toolcallback:
+          enabled: true
+        streamable-http:
+          connections:
+            kontakt:
+              url: http://localhost:4400
+
+arconia:
+  observations:
+    conventions:
+      opentelemetry:
+        ai:
+          inference-content-destination: span_events
+          capture-message-content: true
+          capture-tool-definitions: true
+          capture-tool-call-content: true
 
 management:
   endpoints:
@@ -38,8 +80,27 @@ management:
       exposure:
         include: "*"
 
+logging:
+  level:
+    org.atmosphere: warn
+    com.thomasvitale.mousike: debug
+
 vaadin:
   launch-browser: true
-  allowed-packages: com.vaadin,org.vaadin,com.flowingcode,com.thomasvitale.mousike
-  pnpm:
-    enable: true
+  allowed-packages: com.vaadin,org.vaadin,com.thomasvitale.mousike
+
+mousike:
+  demo:
+    seed: true
+  midi:
+    output-port-name: "MCP Midi Output"
+  ollama:
+    transcription:
+      model: lfm3-omni:2b
+  classification:
+    min-probability: 0.35
+    min-margin: 0.10
+  guardrail:
+    on-topic-threshold: 0.5
+    injection-threshold: 0.7
+    creative-work-threshold: 0.85   # calibrated: GuardrailCalibrationTests

@@ -1,0 +1,207 @@
+/* A conversation fills the window: the header on top, then one panel holding the transcript and, at its foot, the input */
+.assistant-view {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 1.5rem;
+}
+
+/* Before the first message there is no panel: a big input right under the header, the suggestions below it */
+.assistant-view:not(.conversation-started) .conversation-panel {
+  flex: none;
+  gap: 1rem;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+}
+
+.assistant-view:not(.conversation-started) .conversation-composer {
+  order: -1;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.assistant-view:not(.conversation-started) .conversation-composer > * {
+  max-width: none;
+}
+
+.assistant-view:not(.conversation-started) .conversation-scroll {
+  flex: none;
+  overflow: visible;
+  padding: 0;
+}
+
+.assistant-view:not(.conversation-started) .conversation-scroll > * {
+  max-width: none;
+}
+
+.assistant-view:not(.conversation-started) .assistant-input {
+  padding: 1rem 1.25rem;
+  border-radius: 14px;
+  font-size: var(--aura-font-size-l);
+}
+
+.conversation-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--studio-rule);
+  border-radius: 12px;
+  background: var(--studio-panel);
+}
+
+.conversation-scroll {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+/* One reading column, in the transcript and in the input alike */
+.conversation-scroll > *,
+.conversation-composer > * {
+  flex: none;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+.conversation-composer {
+  padding: 0.75rem 1.5rem;
+  border-top: 1px solid var(--studio-rule);
+  background: var(--studio-console);
+}
+
+.starters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.starter {
+  --vaadin-button-text-color: var(--studio-ink);
+  --vaadin-button-border-radius: 8px;
+  font-weight: var(--aura-font-weight-regular);
+  border: 1px solid var(--studio-rule);
+  background: var(--studio-panel);
+}
+
+.transcript {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.transcript:empty {
+  display: none;
+}
+
+/* One message and what came of it: the question on the right, everything else flowing down the page */
+.exchange {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.exchange-question {
+  align-self: flex-end;
+  max-width: 75%;
+  padding: 0.5rem 0.85rem;
+  border-radius: 10px;
+  background: #e9eff7;
+  line-height: 1.5;
+}
+
+.exchange-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  color: var(--studio-ink-soft);
+  font-size: var(--aura-font-size-s);
+}
+
+.exchange-steps.working {
+  font-style: italic;
+}
+
+.exchange-answer {
+  line-height: 1.55;
+}
+
+.exchange-answer > :first-child {
+  margin-top: 0;
+}
+
+.exchange-answer > :last-child {
+  margin-bottom: 0;
+}
+
+.exchange-answer.refused {
+  color: var(--studio-red);
+}
+
+/* Evidence: the notes the answer came from */
+.evidence {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.evidence:empty {
+  display: none;
+}
+
+.evidence-title {
+  color: var(--studio-annotation);
+  font-size: var(--aura-font-size-s);
+  font-weight: var(--aura-font-weight-semibold);
+}
+
+.evidence-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--studio-rule);
+}
+
+.evidence-row {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--studio-rule);
+  border-left: 3px solid var(--kind, var(--studio-rule));
+  font-size: var(--aura-font-size-s);
+}
+
+.evidence-kind {
+  color: var(--kind, var(--vaadin-text-color-secondary));
+  font-weight: var(--aura-font-weight-semibold);
+}
+
+.evidence-excerpt {
+  color: var(--vaadin-text-color);
+}
+
+.evidence-verdict {
+  color: var(--studio-ink-soft);
+  font-size: var(--aura-font-size-xs);
+}
+
+.evidence-provenance {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.assistant-input {
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  background: var(--studio-panel);
+}

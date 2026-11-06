@@ -1,12 +1,13 @@
+import java.security.MessageDigest
+
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '4.1.1'
-	id 'io.spring.dependency-management' version '1.1.7'
-    id 'com.vaadin' version '25.3.3'
-    id 'org.cyclonedx.bom' version '3.5.1'
+    id 'java'
+    id 'org.springframework.boot' version '4.2.0-RC2'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.vaadin' version '25.3.4'
 }
 
-group = 'com.thomasvitale'
+group = 'com.thomasvitale.mousike'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -16,72 +17,128 @@ java {
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
+}
+
+configurations.configureEach {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 ext {
-    set('arconiaVersion', "0.31.0")
-	set('springAiVersion', "2.0.1")
-    set('vaadinVersion', "25.3.3")
+    set('arconiaVersion', '0.32.0')
+    set('springAiVersion', '2.1.0-RC2')
+    set('springModulithVersion', '2.2.0-RC1')
+    set('vaadinVersion', '25.3.4')
 }
 
 dependencies {
+    // Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
-
     implementation 'org.springframework.boot:spring-boot-starter-flyway'
     implementation 'org.flywaydb:flyway-database-postgresql'
+    implementation 'org.postgresql:postgresql'
 
-    runtimeOnly 'org.postgresql:postgresql'
+    // Spring Modulith
+    implementation 'org.springframework.modulith:spring-modulith-starter-core'
+    implementation 'org.springframework.modulith:spring-modulith-events-api'
+    implementation 'org.springframework.modulith:spring-modulith-starter-jdbc'
 
-    implementation "org.springframework.ai:spring-ai-starter-model-mistral-ai"
-    implementation "org.springframework.ai:spring-ai-starter-model-openai"
-    implementation "org.springframework.ai:spring-ai-starter-vector-store-pgvector"
+    // Spring AI
+    implementation 'org.springframework.ai:spring-ai-starter-model-ollama'
+    implementation 'org.springframework.ai:spring-ai-starter-vector-store-pgvector'
+    implementation 'org.springframework.ai:spring-ai-rag'
+    implementation 'org.springframework.ai:spring-ai-starter-mcp-client'
+    implementation 'org.springframework.ai:spring-ai-starter-model-session-jdbc'
+    implementation 'org.springframework.ai:spring-ai-session-advisor'
 
-    implementation "org.springframework.ai:spring-ai-vector-store-advisor"
-    implementation "org.springframework.ai:spring-ai-rag"
+    // Vaadin
+    implementation 'com.vaadin:vaadin-spring-boot-starter'
 
-    implementation "com.vaadin:vaadin-spring-boot-starter"
-    implementation "org.parttio:line-awesome:2.1.0"
-
-    implementation "io.arconia:arconia-ai-docling-document-reader"
-    implementation "io.arconia:arconia-openinference-ai-semantic-conventions"
-    implementation "io.arconia:arconia-opentelemetry-spring-boot-starter"
+    // Arconia
+    implementation 'io.arconia:arconia-opentelemetry-semantic-conventions'
+    implementation 'io.arconia:arconia-opentelemetry-spring-boot-starter'
+    implementation 'io.arconia:arconia-docling-spring-boot-starter'
+    implementation 'io.arconia:arconia-opentelemetry-ai-semantic-conventions'
     implementation 'net.ttddyy.observation:datasource-micrometer-spring-boot'
 
-    developmentOnly "com.vaadin:vaadin-dev"
-    developmentOnly "org.springframework.boot:spring-boot-devtools"
-    testAndDevelopmentOnly "io.arconia:arconia-dev-services-docling"
-    testAndDevelopmentOnly "io.arconia:arconia-dev-services-phoenix"
-    testAndDevelopmentOnly "io.arconia:arconia-dev-services-postgresql"
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-    testImplementation "org.springframework.boot:spring-boot-starter-actuator-test"
-    testImplementation "org.springframework.boot:spring-boot-starter-data-jdbc-test"
-    testImplementation "org.springframework.boot:spring-boot-starter-flyway-test"
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation "org.springframework.boot:spring-boot-starter-validation-test"
-    testImplementation "org.springframework.boot:spring-boot-starter-webmvc-test"
+    developmentOnly 'com.vaadin:vaadin-dev'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testAndDevelopmentOnly 'io.arconia:arconia-dev-services-docling'
+    testAndDevelopmentOnly 'io.arconia:arconia-dev-services-lgtm'
+    testAndDevelopmentOnly 'io.arconia:arconia-dev-services-ollama'
+    testAndDevelopmentOnly 'io.arconia:arconia-dev-services-postgresql'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-jdbc-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testImplementation 'org.springframework.modulith:spring-modulith-starter-test'
+    testImplementation 'com.vaadin:browserless-test-spring'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 dependencyManagement {
     imports {
-        mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
         mavenBom "io.arconia:arconia-bom:${arconiaVersion}"
         mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+        mavenBom "org.springframework.modulith:spring-modulith-bom:${springModulithVersion}"
+        mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
-    options.compilerArgs.add("-parameters")
+    options.compilerArgs.add('-parameters')
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform {
+        excludeTags 'calibration'
+    }
+}
+
+// Evaluates the decision model against the demo notes (NoteClassificationCalibrationTests). It calls the real model,
+// so it stays out of the regular build: run it with Ollama up after changing notes, kinds, thresholds or model.
+tasks.register('calibrationTest', Test) {
+    description = 'Checks that the decision model classifies every demo note as written.'
+    group = 'verification'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    useJUnitPlatform {
+        includeTags 'calibration'
+    }
+    testLogging {
+        events 'passed', 'failed'
+    }
 }
 
 tasks.named('bootBuildImage') {
-    builder = "paketobuildpacks/builder-noble-java-tiny"
+    builder = 'docker.io/paketobuildpacks/ubuntu-resolute-builder'
+    runImage = 'docker.io/paketobuildpacks/ubuntu-resolute-run-tiny'
 }
+
+// The browser player needs a General MIDI soundfont. It is fetched once at build time (8.4 MB) and served
+// from this app, so the demo never depends on a CDN. Pinned to a commit of the SpessaSynth repository.
+def soundfontDir = layout.buildDirectory.dir('generated-resources/soundfonts/META-INF/resources/soundfonts')
+tasks.register('downloadSoundfont') {
+    def target = soundfontDir.map { it.file('GeneralUserGS.sf3') }
+    def url = 'https://github.com/spessasus/SpessaSynth/raw/6f7505087eba09bdbf345c97f5cf573fc547412e/soundfonts/GeneralUserGS.sf3'
+    def expectedSha256 = 'e2ed326ff44d15f78f2fdc72403b6fa6b77ee7266d3aad0d2198bc95797bc66c'
+    outputs.file(target)
+    doLast {
+        def file = target.get().asFile
+        if (!file.exists()) {
+            file.parentFile.mkdirs()
+            logger.lifecycle("Downloading GeneralUser GS soundfont for the progression player…")
+            new URI(url).toURL().withInputStream { input -> file.withOutputStream { it << input } }
+        }
+        def actual = MessageDigest.getInstance('SHA-256').digest(file.bytes).encodeHex().toString()
+        if (actual != expectedSha256) {
+            file.delete()
+            throw new GradleException("Soundfont checksum mismatch: $actual")
+        }
+    }
+}
+sourceSets.main.resources.srcDir(soundfontDir.map { it.asFile.parentFile.parentFile.parentFile })
+tasks.named('processResources') { dependsOn 'downloadSoundfont' }

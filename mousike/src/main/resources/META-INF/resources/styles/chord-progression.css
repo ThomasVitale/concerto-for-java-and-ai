@@ -1,0 +1,40 @@
+/* A chord progression is a slim unit: a slim panel with a colour tab, a transport button and pads */
+.progression-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.9rem 1.1rem 1rem;
+  border: 1px solid var(--studio-rule);
+  border-left: 4px solid var(--studio-annotation);
+  border-radius: 10px;
+  background: var(--studio-panel);
+}
+
+.progression-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.progression-title {
+  font-weight: var(--aura-font-weight-semibold);
+}
+
+.progression-meta {
+  color: var(--studio-ink-soft);
+  font-size: var(--aura-font-size-s);
+}
+
+.progression-voicing {
+  color: var(--studio-ink-soft);
+  font-family: var(--studio-font-mono);
+  font-size: var(--aura-font-size-xs);
+  white-space: pre-wrap;
+}
+
+.progressions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}

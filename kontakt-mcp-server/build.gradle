@@ -1,0 +1,75 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '4.2.0-RC1'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.thomasvitale.mousike'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations.configureEach {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+ext {
+    set('arconiaVersion', '0.32.0')
+    set('springAiVersion', '2.1.0-RC1')
+}
+
+dependencies {
+    // Annotation
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // Web and MCP
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springframework.ai:spring-ai-starter-mcp-server-webmvc'
+
+    // SQLite
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'io.arconia:arconia-data-jdbc-sqlite'
+
+    // Observability
+    implementation 'io.arconia:arconia-opentelemetry-spring-boot-starter'
+    implementation 'io.arconia:arconia-opentelemetry-semantic-conventions'
+    implementation 'net.ttddyy.observation:datasource-micrometer-spring-boot'
+    implementation 'net.ttddyy.observation:datasource-micrometer-opentelemetry'
+
+    // Development
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testAndDevelopmentOnly 'io.arconia:arconia-dev-services-lgtm'
+
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-jdbc-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "io.arconia:arconia-bom:${arconiaVersion}"
+        mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs.add('-parameters')
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.named('bootBuildImage') {
+    builder = 'docker.io/paketobuildpacks/ubuntu-resolute-builder'
+    runImage = 'docker.io/paketobuildpacks/ubuntu-resolute-run-tiny'
+}

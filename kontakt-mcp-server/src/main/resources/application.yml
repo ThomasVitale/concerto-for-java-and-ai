@@ -1,0 +1,32 @@
+server:
+  port: 4400
+
+spring:
+  application:
+    name: kontakt-mcp-server
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    # open_mode=1 is SQLITE_OPEN_READONLY: Kontakt owns this file, the server only reads it
+    url: jdbc:sqlite:${kontakt.database}?open_mode=1
+    hikari:
+      maximum-pool-size: 2
+      read-only: true
+  ai:
+    mcp:
+      server:
+        name: kontakt-mcp-server
+        version: 0.0.1
+        instructions: >-
+          The composer's installed Kontakt libraries, in the words of Kontakt 8's Browser. Search presets by
+          description, list libraries, Sound Types and Characters, and look up one preset's details, audio preview
+          and its library's manuals when unsure what it does. Preset names are meant to be loaded by hand in
+          Kontakt. Search covers the libraries that are available now unless asked otherwise; the others sit on a
+          drive that is not mounted. Nothing here plays sound.
+        protocol: streamable
+        type: sync
+
+kontakt:
+  database: ${user.home}/Library/Application Support/Native Instruments/Kontakt 8/komplete.db3
+  url: http://localhost:${server.port}

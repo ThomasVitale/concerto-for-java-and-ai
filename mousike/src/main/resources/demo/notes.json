@@ -1,0 +1,34 @@
+[
+  {"kind": "INSTRUMENT", "content": "The piano suits intimate, tender and grieving scenes. It's warm in the middle register and fragile in the high one."},
+  {"kind": "INSTRUMENT", "content": "A solo cello in its low register carries longing, grief and intimacy. Start with long bows and little vibrato, then let it bloom on the phrase peak."},
+  {"kind": "INSTRUMENT", "content": "The sordino violins suit melancholic scenes, because they sound soft, rich and distant."},
+  {"kind": "INSTRUMENT", "content": "French horns suit heroic adventure themes, and they sound epic played legato in a crescendo."},
+  {"kind": "INSTRUMENT", "content": "The church organ suits the murder in a noir film, where it marks the fatality."},
+
+  {"kind": "HARMONY", "content": "For epic or action scenes in D minor, the progression i-VI-III-VII (Dm Bb F C) keeps moving and never fully resolves."},
+  {"kind": "HARMONY", "content": "For melancholy in D minor, play i-VI-III-VII (Dm Bb F C) slowly. It's the same progression as the epic one, only softer and rubato."},
+  {"kind": "HARMONY", "content": "For a noir funeral march in G minor at 68 bpm in 4/4, the progression iv-V-i-V (Cm D Gm D) keeps circling around the same dark chord."},
+
+  {"kind": "MELODY", "content": "A character theme needs a short motif the audience can hum. Vary it later: slower for grief, brighter for the triumphant return."},
+
+  {"kind": "RHYTHM", "content": "In an action chase at 124 bpm in 4/4, 1/16 triplets in percussion and staccato strings make a driving rhythm, loud and steady from the first bar."},
+  {"kind": "RHYTHM", "content": "In a noir funeral march at 68 bpm in 4/4, slow triplets in percussion and harp make a heavy rhythm that keeps coming."},
+
+  {"kind": "ORCHESTRATION", "content": "For an action chase, orchestrate percussion and staccato strings together in 1/16 triplets, with ominous lows on 1/4 root notes underneath."},
+  {"kind": "ORCHESTRATION", "content": "To raise the tension in an action chase, orchestrate high staccato strings in 1/8 notes above the ominous lows."},
+  {"kind": "ORCHESTRATION", "content": "For a lonely, melancholic scene, orchestrate a solo cello melody over simple piano chords that change on each bar."},
+  {"kind": "ORCHESTRATION", "content": "To wrap a melancholic moment in a richer sound, orchestrate sordino violins playing rich chords above the solo cello."},
+  {"kind": "ORCHESTRATION", "content": "For a noir murder, orchestrate a slow funeral march with piano on root notes, and percussion and harp marking the triplets."},
+  {"kind": "ORCHESTRATION", "content": "To make a noir scene ominous, orchestrate a church organ doubling the harp, while the piano adds phrases in octaves."},
+
+  {"kind": "ARRANGEMENT", "content": "Arrange an action chase cue as three sections that build: first percussion, staccato strings and ominous lows, then add high strings, and save the legato French horns for the final section."},
+  {"kind": "ARRANGEMENT", "content": "Arrange a melancholic drama cue as three sections that grow: solo cello and piano, then the cello rising in intensity, and finally sordino violins joining with rich chords."},
+  {"kind": "ARRANGEMENT", "content": "Arrange a noir cue in sections that build: first the slow march, then a solo cello, and save the church organ for the final section."},
+
+  {"kind": "SOUND_DESIGN", "content": "For nostalgia, I use vinyl crackle as a sound effect under the music."},
+
+  {"kind": "STYLE", "content": "John Williams fanfares rely on quartal leaps and dotted rhythms, so the energy comes from the rhythm more than the harmony."},
+  {"kind": "STYLE", "content": "A gothic noir in the style of Bernard Herrmann leans on low piano octaves and dark organ chords."},
+
+  {"kind": "TECHNIQUE", "content": "Spot the picture before writing a note. Mark every hit point and build the tempo map, then compose to the cuts."}
+]

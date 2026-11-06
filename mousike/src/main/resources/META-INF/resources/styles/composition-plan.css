@@ -1,0 +1,196 @@
+/* Composition plan: pick a scene, watch the planner work, read the sheet */
+.composition-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.composition-scene-picker {
+  min-width: min(28rem, 100%);
+}
+
+.composition-library-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding-bottom: 0.55rem;
+  color: var(--studio-ink-soft);
+  font-size: var(--aura-font-size-s);
+}
+
+.composition-scene {
+  max-width: 48rem;
+  margin-bottom: 1.25rem;
+}
+
+.composition-scene:empty,
+.composition-progress:empty,
+.composition-sheet-area:empty {
+  display: none;
+}
+
+/* The planner's narration: the Nord display, one line per step, the latest one lit with a caret */
+.composition-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1.25rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 8px;
+  background: var(--studio-lcd);
+  color: color-mix(in srgb, var(--studio-lcd-text) 55%, transparent);
+  font-family: var(--studio-font-mono);
+  font-size: var(--aura-font-size-s);
+  line-height: 1.5;
+}
+
+.composition-progress-step.current {
+  color: var(--studio-lcd-text);
+}
+
+.composition-progress-step.current::after {
+  content: " ▍";
+  animation: composition-cursor 1s steps(2) infinite;
+}
+
+@keyframes composition-cursor {
+  to { opacity: 0; }
+}
+
+.composition-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 56rem;
+  padding: 1.4rem 1.6rem 1.6rem;
+  border: 1px solid var(--studio-rule);
+  border-left: 4px solid var(--studio-annotation);
+  border-radius: 10px;
+  background: var(--studio-panel);
+}
+
+.composition-concept {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.55;
+}
+
+.composition-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.composition-section .staff-divider {
+  flex-basis: 100%;
+}
+
+.composition-section-title {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.composition-section-hint {
+  color: var(--vaadin-text-color-secondary);
+  font-size: var(--aura-font-size-s);
+}
+
+.composition-palette {
+  display: flex;
+  flex-direction: column;
+}
+
+.composition-palette-row {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--studio-rule);
+}
+
+.composition-palette-row:last-child {
+  border-bottom: none;
+}
+
+.composition-role {
+  color: var(--studio-ink-soft);
+  font-size: var(--aura-font-size-s);
+}
+
+.composition-palette-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.composition-instrument {
+  font-weight: var(--aura-font-weight-medium);
+}
+
+.composition-preset-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.composition-preset {
+  font-family: var(--studio-font-mono);
+  font-size: var(--aura-font-size-xs);
+  color: var(--kind-instrument);
+}
+
+.composition-sample audio {
+  display: none;
+}
+
+.composition-why {
+  margin: 0;
+  color: var(--vaadin-text-color-secondary);
+  font-size: var(--aura-font-size-s);
+  line-height: 1.5;
+}
+
+.composition-harmony {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.composition-idea {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.composition-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.composition-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.composition-chip {
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--studio-rule);
+  background: var(--studio-panel-deep);
+  font-size: var(--aura-font-size-xs);
+  color: var(--studio-ink-soft);
+}
+
+@media (max-width: 760px) {
+  .composition-palette-row {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+}

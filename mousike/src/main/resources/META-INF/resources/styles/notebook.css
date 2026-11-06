@@ -1,0 +1,288 @@
+/* Shared view scaffolding */
+.studio-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vaadin-gap-l, 1.5rem);
+  padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2.5rem) 5rem;
+  max-width: 1120px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Title on its own row; the purpose and the actions share the row below, centred on each other */
+.view-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--vaadin-gap-l, 1.5rem);
+  row-gap: 0.5rem;
+}
+
+.view-header-copy {
+  display: contents;
+}
+
+@media (max-width: 760px) {
+  .view-header {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.view-title {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.view-purpose {
+  margin: 0;
+  max-width: 36rem;
+  color: var(--studio-ink-soft);
+  font-size: var(--aura-font-size-m);
+  line-height: 1.5;
+}
+
+.view-header-actions {
+  display: flex;
+  gap: var(--vaadin-gap-s);
+}
+
+.notebook-toolbar {
+  gap: var(--vaadin-gap-l, 1.5rem);
+}
+
+.notebook-toolbar vaadin-select {
+  min-width: 11rem;
+}
+
+.result-count {
+  color: var(--studio-ink-soft);
+  font-size: var(--aura-font-size-s);
+  font-variant-numeric: tabular-nums;
+  margin-inline-start: auto;
+  white-space: nowrap;
+}
+
+.search-mode {
+  flex: none;
+  padding: 0;
+}
+
+.empty-state {
+  padding: 4rem 1rem;
+  text-align: center;
+  color: var(--vaadin-text-color-secondary);
+  font-size: var(--aura-font-size-xl);
+}
+
+/* The spectrum: the notebook's distribution by kind, and the kind filter */
+.spectrum {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* A segmented level meter in a recessed track */
+.spectrum-bar {
+  display: flex;
+  gap: 2px;
+  height: 12px;
+  padding: 2px;
+  border-radius: 6px;
+  border: 1px solid var(--studio-keycap-edge);
+  background: var(--studio-keycap);
+}
+
+.spectrum-band {
+  flex-basis: 0;
+  min-width: 6px;
+  border-radius: 3px;
+  background: var(--kind);
+  cursor: pointer;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.spectrum-band:hover,
+.spectrum-band:focus-visible {
+  filter: brightness(1.25);
+  outline: none;
+}
+
+.spectrum-filtered .spectrum-band:not(.spectrum-band-selected) {
+  opacity: 0.25;
+}
+
+.spectrum-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+}
+
+.spectrum-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--aura-font-size-s);
+  cursor: pointer;
+  color: var(--vaadin-text-color-secondary);
+}
+
+.spectrum-legend-selected,
+.spectrum-legend-item:hover {
+  color: var(--vaadin-text-color);
+}
+
+.spectrum-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--kind);
+}
+
+.spectrum-count {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+}
+
+/* The ledger: one row per note */
+.note-ledger {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--studio-rule);
+}
+
+.note-row {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr) 13rem;
+  gap: var(--vaadin-gap-l, 1.5rem);
+  padding: 1.1rem 0.75rem 1.1rem 1rem;
+  border-bottom: 1px solid var(--studio-rule);
+  border-left: 3px solid var(--kind);
+  align-items: start;
+}
+
+.note-row:hover,
+.note-row:focus-within {
+  background: var(--studio-panel-deep);
+}
+
+.note-margin {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding-top: 0.15rem;
+}
+
+.pencil-kind {
+  color: var(--kind);
+  font-size: var(--aura-font-size-s);
+  font-weight: var(--aura-font-weight-semibold);
+}
+
+.note-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.note-body-text {
+  margin: 0;
+  max-width: 62ch;
+  white-space: pre-line;
+  font-size: 1.07rem;
+  line-height: 1.55;
+}
+
+.note-side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.note-actions {
+  display: flex;
+  gap: 0.25rem;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.note-row:hover .note-actions,
+.note-row:focus-within .note-actions {
+  opacity: 1;
+}
+
+/* Similarity, when searching by meaning */
+.similarity-mark {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  background: var(--studio-annotation-soft);
+  color: var(--studio-annotation);
+  font-size: var(--aura-font-size-xs);
+  font-weight: var(--aura-font-weight-medium);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Provenance: an LED and a sentence */
+.model-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--studio-ink-soft);
+  font-size: var(--aura-font-size-xs);
+}
+
+.model-badge-dot-local,
+.model-badge-dot-offline {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--led, var(--studio-rule));
+  box-shadow: 0 0 5px color-mix(in srgb, var(--led, transparent) 60%, transparent);
+}
+
+.model-badge-dot-local { --led: var(--studio-led-green); }
+.model-badge-dot-offline { --led: transparent; background: var(--studio-rule); }
+
+/* Staff divider */
+.staff-divider {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0.5rem 0;
+}
+
+.staff-divider > div {
+  height: 1px;
+  background: var(--studio-rule);
+}
+
+/* Editor */
+.note-editor-hint {
+  color: var(--vaadin-text-color-secondary);
+  font-size: var(--aura-font-size-s);
+}
+
+@media (max-width: 760px) {
+  .note-row {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .note-margin {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .note-actions {
+    opacity: 1;
+  }
+}
+
