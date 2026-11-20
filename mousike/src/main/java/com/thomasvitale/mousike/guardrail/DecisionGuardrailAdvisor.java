@@ -62,7 +62,7 @@ public class DecisionGuardrailAdvisor implements CallAdvisor {
         if (!verdict.allowed()) {
             return ChatClientResponse.builder()
                     .chatResponse(ChatResponse.builder()
-                            .generations(List.of(new Generation(new AssistantMessage(verdict.outcome().answer()))))
+                            .generations(List.of(new Generation(AssistantMessage.builder().content(verdict.outcome().answer()).build())))
                             .build())
                     .context(request.context())
                     .context(VERDICT, verdict)

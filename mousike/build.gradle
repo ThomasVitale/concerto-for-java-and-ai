@@ -2,7 +2,7 @@ import java.security.MessageDigest
 
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '4.2.0-RC2'
+    id 'org.springframework.boot' version '4.2.0'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'com.vaadin' version '25.3.4'
 }
@@ -26,8 +26,8 @@ configurations.configureEach {
 
 ext {
     set('arconiaVersion', '0.32.0')
-    set('springAiVersion', '2.1.0-RC2')
-    set('springModulithVersion', '2.2.0-RC1')
+    set('springAiVersion', '2.1.0')
+    set('springModulithVersion', '2.2.0')
     set('vaadinVersion', '25.3.4')
 }
 
@@ -73,9 +73,11 @@ dependencies {
     testAndDevelopmentOnly 'io.arconia:arconia-dev-services-postgresql'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-data-jdbc-test'
+    testImplementation "org.springframework.boot:spring-boot-starter-flyway-test"
     testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
     testImplementation 'org.springframework.modulith:spring-modulith-starter-test'
     testImplementation 'com.vaadin:browserless-test-spring'
+    testImplementation "org.springframework.boot:spring-boot-starter-actuator-test"
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

@@ -61,7 +61,7 @@ class StudioAssistantTests {
 
     @Test
     void aPlainAnswerIsTheModelsText() {
-        Answer answer = assistantAnswering(new AssistantMessage("Hello.")).reply(UUID.randomUUID().toString(), "Hi", step -> { });
+        Answer answer = assistantAnswering(AssistantMessage.builder().content("Hello.").build()).reply(UUID.randomUUID().toString(), "Hi", step -> { });
 
         assertThat(answer.markdown()).isEqualTo("Hello.");
         assertThat(answer.chordProgressions()).isEmpty();
